@@ -1,0 +1,1 @@
+// JWT/auth protection logic will go here (empty for now)

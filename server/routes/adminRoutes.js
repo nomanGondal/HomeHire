@@ -1,0 +1,1 @@
+// Admin-related routes will be defined here (empty for now)
