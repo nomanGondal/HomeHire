@@ -1,0 +1,107 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 2.5rem;
+  background: #F7F8FA;
+  border-bottom: 1px solid #E4E7EA;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+/* Logo */
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  color: #132A3A;
+}
+
+.navbar-logo svg {
+  color: #2b7fff;
+  flex-shrink: 0;
+}
+
+.navbar-brand {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.navbar-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #132A3A;
+  letter-spacing: -0.01em;
+}
+
+.navbar-tagline {
+  font-size: 0.72rem;
+  color: #5C6B73;
+  font-weight: 400;
+}
+
+/* Links */
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 1.9rem;
+}
+
+.navbar-links a {
+  text-decoration: none;
+  color: #3D4A52;
+  font-size: 0.95rem;
+  font-weight: 500;
+  position: relative;
+  padding-bottom: 4px;
+  transition: color 0.15s ease;
+}
+
+.navbar-links a:not(.navbar-cta)::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background: #2b7fff;
+  transition: width 0.2s ease;
+}
+
+.navbar-links a:not(.navbar-cta):hover {
+  color: #132A3A;
+}
+
+.navbar-links a:not(.navbar-cta):hover::after {
+  width: 100%;
+}
+
+/* Sign Up button */
+.navbar-cta {
+  background: #2b7fff;
+  color: #fff !important;
+  padding: 0.5rem 1.15rem;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: background 0.15s ease;
+}
+
+.navbar-cta:hover {
+  background: #1a5bc2;
+}
+
+/* Responsive */
+@media (max-width: 720px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.8rem;
+    padding: 0.9rem 1.25rem;
+  }
+
+  .navbar-links {
+    flex-wrap: wrap;
+    gap: 1rem 1.4rem;
+  }
+}
