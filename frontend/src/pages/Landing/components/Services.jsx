@@ -1,6 +1,6 @@
 import { Zap, Droplets, Snowflake, Hammer, Settings2 } from "lucide-react";
-import ServiceCard from "../common/ServiceCard";
-import "../CSS/Services.css";
+import ServiceCard from "../../../components/common/ServiceCard";
+import "./Services.css";
 
 const Service = [
   { icon: Zap, title: "Electrician", description: "Wiring, switches, fans" },

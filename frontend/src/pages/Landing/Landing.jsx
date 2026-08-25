@@ -1,8 +1,15 @@
 import { Link } from 'react-router-dom'
 import { ShieldCheck, CircleCheck, MessageCircle, Clock } from "lucide-react"
-import Navbar from '../components/common/Navbar'
-import Services from '../components/common/Services'
-import heroImg from '../assets/hero.jpeg'
+import Navbar from '../../components/common/Navbar'
+import Services from '../Landing/components/Services'
+import heroImg from '../../assets/hero.jpeg'
+import HowItWork from '../Landing/components/HowItWork'
+import WhyUstaad from '../Landing/components/WhyUstaad'
+import ProviderCTA from './components/ProviderCTA'
+import Testimonials from './components/Testimonials'
+import Faq from './components/Faq'
+import FinalCTA from './components/FinalCTA'
+import Footer from '../../components/common/Footer'
 
 const Landing = () => {
   return (
@@ -10,7 +17,7 @@ const Landing = () => {
       <Navbar />
 
       <section className="max-w-6xl mx-auto px-6 md:px-10 pt-14 pb-20 grid md:grid-cols-2 gap-12 items-center">
-        {/* Left: text content */}
+        
         <div className="flex flex-col gap-6">
           <div className="inline-flex w-fit items-center gap-2 bg-offwhite border border-borderc text-brand text-sm font-medium px-4 py-1.5 rounded-full">
             <ShieldCheck size={16} />
@@ -58,7 +65,7 @@ const Landing = () => {
           </div>
         </div>
 
-        {/* Right: hero image */}
+       
         <div className="relative">
           <div className="absolute -inset-4 bg-brand/5 rounded-3xl -z-10" />
           <img
@@ -70,6 +77,13 @@ const Landing = () => {
       </section>
 
       <Services />
+      <HowItWork/>
+      <WhyUstaad/>
+      <ProviderCTA/>
+      <Testimonials/>
+      <Faq/>
+      <FinalCTA/>
+      <Footer/>
     </div>
   )
 }
