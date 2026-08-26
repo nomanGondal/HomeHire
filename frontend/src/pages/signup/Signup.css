@@ -1,3 +1,36 @@
+.role-toggle {
+  display: flex;
+  gap: 0.5rem;
+  background: #F7F8FA;
+  border: 1px solid #E4E7EA;
+  border-radius: 10px;
+  padding: 4px;
+  margin-bottom: 1.75rem;
+}
+
+.role-toggle-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.6rem;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #5C6B73;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.role-toggle-btn.active {
+  background: #2b7fff;
+  color: #fff;
+}
+
+
 .signup-page {
   min-height: 100vh;
   display: flex;
