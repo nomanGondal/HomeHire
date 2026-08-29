@@ -51,11 +51,6 @@ const login = async (req, res) => {
       return res.status(400).json({ message: "Invalid phone number or password" });
     }
 
-    // Uncomment once OTP verification (Step 7) is built
-    // if (!user.isPhoneVerified) {
-    //   return res.status(403).json({ message: "Please verify your phone number first" });
-    // }
-
     const token = jwt.sign(
       { id: user._id, role: user.role },
       process.env.JWT_SECRET,
