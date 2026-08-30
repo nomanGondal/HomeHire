@@ -4,6 +4,8 @@ const cors = require("cors");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRouthes");
 const providerRoutes = require("./routes/providerRoute");
+const categoryRoutes = require("./routes/categoryRoutes");
+const serviceRequestRoutes = require("./routes/serviceRequestRoutes");
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -13,9 +15,11 @@ connectDB();
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
-
+app.use("/api/categories", categoryRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/provider", providerRoutes);
+
+app.use("/api/requests", serviceRequestRoutes);
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}...`);
 });
