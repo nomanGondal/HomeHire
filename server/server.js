@@ -6,6 +6,8 @@ const authRoutes = require("./routes/authRouthes");
 const providerRoutes = require("./routes/providerRoute");
 const categoryRoutes = require("./routes/categoryRoutes");
 const serviceRequestRoutes = require("./routes/serviceRequestRoutes");
+const quoteRoutes = require("./routes/quoteroute");
+const bookingRoutes = require("./routes/bookingroutes");
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -18,8 +20,9 @@ app.get("/", (req, res) => {
 app.use("/api/categories", categoryRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/provider", providerRoutes);
-
+app.use("/api/quotes", quoteRoutes);
 app.use("/api/requests", serviceRequestRoutes);
+app.use("/api/bookings", bookingRoutes);
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}...`);
 });

@@ -90,7 +90,7 @@ const sendOtp = async (req, res) => {
     await Otp.deleteMany({ phone }); // clear old pending attempts
 
     const code = Math.floor(10000 + Math.random() * 90000).toString();
-    const expiresAt = new Date(Date.now() + 5 * 60 * 1000);
+    const expiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes
 
     await Otp.create({
       phone,
@@ -100,7 +100,7 @@ const sendOtp = async (req, res) => {
     });
 
     console.log(`OTP for ${phone}: ${code}`);
-
+     
     res.status(200).json({ message: "OTP sent successfully", devOtp: code });
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
