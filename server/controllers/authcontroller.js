@@ -73,10 +73,10 @@ const login = async (req, res) => {
 //POST /api/auth/otp/send
 const sendOtp = async (req, res) => {
   try {
-    const { name, phone, email, password, role } = req.body;
+    const { fullName, phone, email, password, role } = req.body;
 
-    if (!name || !phone || !password || !role) {
-      return res.status(400).json({ message: "Name, phone, password, and role are required" });
+    if (!fullName || !phone || !password || !role) {
+      return res.status(400).json({ message: "Full name, phone, password, and role are required" });
     }
     if (!["customer", "provider"].includes(role)) {
       return res.status(400).json({ message: "Invalid role" });
@@ -89,14 +89,14 @@ const sendOtp = async (req, res) => {
 
     await Otp.deleteMany({ phone }); // clear old pending attempts
 
-    const code = Math.floor(10000 + Math.random() * 90000).toString();
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
     const expiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes
 
     await Otp.create({
       phone,
       code,
       expiresAt,
-      payload: { name, phone, email, password, role }, // stored temporarily, plain password — deleted right after use
+      payload: { name: fullName, phone, email, password, role }, // stored temporarily, plain password — deleted right after use
     });
 
     console.log(`OTP for ${phone}: ${code}`);

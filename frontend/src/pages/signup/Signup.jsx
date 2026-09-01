@@ -1,20 +1,19 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { User, Briefcase } from "lucide-react";
-import FormInput from "./components/FormInput";
+import { ChevronDown } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import "./Signup.css";
 
 const Signup = () => {
-  const [role, setRole] = useState("customer"); // "customer" | "provider"
-
   const [formData, setFormData] = useState({
     fullName: "",
+    role: "",
     email: "",
     phone: "",
     password: "",
     confirmPassword: "",
   });
-
+  const navigate = useNavigate();
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
@@ -24,7 +23,10 @@ const Signup = () => {
   const validate = () => {
     const newErrors = {};
 
-    if (!formData.fullName.trim()) newErrors.fullName = "Full name is required.";
+    if (!formData.role) newErrors.role = "Please select a role.";
+
+    if (!formData.fullName.trim())
+      newErrors.fullName = "Full name is required.";
 
     if (!formData.email.trim()) {
       newErrors.email = "Email is required.";
@@ -49,22 +51,43 @@ const Signup = () => {
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const newErrors = validate();
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  const newErrors = validate();
 
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
+  if (Object.keys(newErrors).length > 0) {
+    setErrors(newErrors);
+    return;
+  }
+
+  setErrors({});
+
+  try {
+    const response = await fetch("http://127.0.0.1:5000/api/auth/send-otp", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      // Backend se error aaya (e.g. email already exists)
+      setErrors({ form: data.message || "Something went wrong. Try again." });
       return;
     }
 
-    setErrors({});
-    // Backend not connected yet — just logging for now
-    console.log("Signup data:", { role, ...formData });
+    console.log("OTP sent successfully:", data);
+    navigate("/verify-otp", { state: { phone: formData.phone } });
+    // Yahan hum OTP verification page pe navigate karenge (agla step)
 
-    // navigate based on role once backend + auth exist
-  };
-
+  } catch (err) {
+    console.error("Network error:", err);
+    setErrors({ form: "Unable to connect to server. Check your connection." });
+  }
+};
   return (
     <div className="signup-page">
       <div className="signup-form-container">
@@ -73,74 +96,105 @@ const Signup = () => {
           Fast signup for trusted local home services in Pakistan.
         </p>
 
-        {/* Role toggle */}
-        <div className="role-toggle">
-          <button
-            type="button"
-            className={`role-toggle-btn ${role === "customer" ? "active" : ""}`}
-            onClick={() => setRole("customer")}
-          >
-            <User size={16} />
-            Customer
-          </button>
-          <button
-            type="button"
-            className={`role-toggle-btn ${role === "provider" ? "active" : ""}`}
-            onClick={() => setRole("provider")}
-          >
-            <Briefcase size={16} />
-            Service Provider
-          </button>
-        </div>
-
         <form className="signup-form" onSubmit={handleSubmit} noValidate>
-          <FormInput
-            label="Full Name"
-            name="fullName"
-            value={formData.fullName}
-            onChange={handleChange}
-            placeholder="e.g. Ayesha Malik"
-            error={errors.fullName}
-          />
 
-          <FormInput
-            label="Email"
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="you@example.com"
-            error={errors.email}
-          />
+        
+          {/* Full Name */}
+          <div className="form-group">
+            <label htmlFor="fullName">Full Name</label>
+            <input
+              id="fullName"
+              name="fullName"
+              type="text"
+              value={formData.fullName}
+              onChange={handleChange}
+              placeholder="e.g. Ayesha Malik"
+              className={errors.fullName ? "input-error" : ""}
+            />
+            {errors.fullName && <span className="field-error">{errors.fullName}</span>}
+          </div>
 
-          <FormInput
-            label="Phone Number"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            placeholder="+92 300 1234567"
-            error={errors.phone}
-          />
 
-          <FormInput
-            label="Password"
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            placeholder="At least 6 characters"
-            error={errors.password}
-          />
+          {/* Role */}
 
-          <FormInput
-            label="Confirm Password"
-            type="password"
-            name="confirmPassword"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-            placeholder="Re-enter your password"
-            error={errors.confirmPassword}
-          />
+            <div className="form-group">
+            <label htmlFor="role">I am a</label>
+            <div className="select-wrapper">
+              <select
+                id="role"
+                name="role"
+                value={formData.role}
+                onChange={handleChange}
+                className={errors.role ? "input-error" : ""}
+              >
+                <option value="" disabled>Select your role</option>
+                <option value="customer">Customer</option>
+                <option value="provider">Service Provider</option>
+              </select>
+              <ChevronDown className="select-chevron" size={18} />
+            </div>
+            {errors.role && <span className="field-error">{errors.role}</span>}
+          </div>
+
+          {/* Email */}
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="you@example.com"
+              className={errors.email ? "input-error" : ""}
+            />
+            {errors.email && <span className="field-error">{errors.email}</span>}
+          </div>
+
+          {/* Phone */}
+          <div className="form-group">
+            <label htmlFor="phone">Phone Number</label>
+            <input
+              id="phone"
+              name="phone"
+              type="text"
+              value={formData.phone}
+              onChange={handleChange}
+              placeholder="+92 300 1234567"
+              className={errors.phone ? "input-error" : ""}
+            />
+            {errors.phone && <span className="field-error">{errors.phone}</span>}
+          </div>
+
+          {/* Password */}
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="At least 6 characters"
+              className={errors.password ? "input-error" : ""}
+            />
+            {errors.password && <span className="field-error">{errors.password}</span>}
+          </div>
+
+          {/* Confirm Password */}
+          <div className="form-group">
+            <label htmlFor="confirmPassword">Confirm Password</label>
+            <input
+              id="confirmPassword"
+              name="confirmPassword"
+              type="password"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              placeholder="Re-enter your password"
+              className={errors.confirmPassword ? "input-error" : ""}
+            />
+            {errors.confirmPassword && <span className="field-error">{errors.confirmPassword}</span>}
+          </div>
 
           <button type="submit" className="signup-submit-btn">
             Create Account
