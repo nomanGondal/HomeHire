@@ -1,5 +1,14 @@
 const mongoose = require("mongoose");
-
+/*  businessName,
+    bio,
+    category,
+    expertiseDescription,
+    yearsOfExperience,
+    hourlyRate,
+    certificate:optional,
+    portfolioPhoto:optional,
+    serviceArea,
+    travelDistance,*/
 const providerProfileSchema = new mongoose.Schema(
   {
     user: {
@@ -8,30 +17,62 @@ const providerProfileSchema = new mongoose.Schema(
       required: true,
       unique: true, // one profile per provider
     },
+    businessName: {
+      type: String,
+      trim: true,
+    },
     bio: {
       type: String,
       trim: true,
     },
-    skills: {
+    expertiseDescription: {
       type: [String],
       default: [],
     },
+    yearsOfExperience: {
+      type: Number,
+      default: 0,
+    },
+    hourlyRate: {
+      type: Number,
+      default: 0,
+    },
+    
+
+
+
+
+
+
+
+
+
     categories: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "ServiceCategory",
       },
     ],
-    experienceYears: {
-      type: Number,
-      default: 0,
-    },
     serviceAreas: [
       {
         city: { type: String, required: true },
         areas: [{ type: String }],
       },
     ],
+    hourlyRate: {
+      type: Number,
+      default: 0,
+    },
+    portfolio: [
+      {
+        title: { type: String },
+        imageUrl: { type: String },
+      },
+    ],
+    travelDistance: {
+      type: Number,
+      default: 0, // in kilometers
+    },
     cnic: {
       number: { type: String },
       frontImageUrl: { type: String },
@@ -43,6 +84,10 @@ const providerProfileSchema = new mongoose.Schema(
         fileUrl: { type: String },
       },
     ],
+    Photo: {
+      type: String,
+    },
+
     verificationStatus: {
       type: String,
       enum: ["pending", "verified", "rejected"],

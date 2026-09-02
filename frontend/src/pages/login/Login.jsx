@@ -60,14 +60,15 @@ const Login = () => {
 
       // Save token for future authenticated requests
       localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
 
       console.log("Login successful:", data);
 
       // Navigate based on role
       if (data.user?.role === "provider") {
-        navigate("/provider/dashboard");
+        navigate("/provider/check-profile");
       } else {
-        navigate("/customer/home");
+        navigate("/customer/dashboard");
       }
 
     } catch (err) {

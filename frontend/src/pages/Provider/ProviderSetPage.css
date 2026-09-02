@@ -1,0 +1,114 @@
+/* ProviderProfileSetup.css */
+
+.setup-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #F7F8FA;
+  padding: 2rem 1rem;
+}
+
+.setup-container {
+  width: 100%;
+  max-width: 480px;
+  background-color: #ffffff;
+  border: 1px solid #E4E7EA;
+  border-radius: 10px;
+  padding: 2rem 1.75rem;
+}
+
+.setup-progress {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.setup-progress-dot {
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background-color: #E4E7EA;
+  transition: background-color 0.2s ease;
+}
+
+.setup-progress-dot.active {
+  background-color: #2b7fff;
+}
+
+.setup-step-label {
+  font-size: 0.8rem;
+  color: #5C6B73;
+  margin-bottom: 1.25rem;
+}
+
+.setup-heading {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #132A3A;
+  margin-bottom: 1rem;
+}
+
+.setup-step .form-group {
+  margin-bottom: 1rem;
+}
+
+.setup-step input,
+.setup-step select,
+.setup-step textarea {
+  width: 100%;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid #E4E7EA;
+  border-radius: 6px;
+  background-color: #F7F8FA;
+  color: #132A3A;
+  font-size: 0.95rem;
+  outline: none;
+  font-family: inherit;
+  transition: border-color 0.2s ease;
+}
+
+.setup-step input:focus,
+.setup-step select:focus,
+.setup-step textarea:focus {
+  border-color: #2b7fff;
+}
+
+.setup-step label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #3D4A52;
+  margin-bottom: 0.35rem;
+}
+
+.setup-error {
+  margin-bottom: 1rem;
+}
+
+.setup-nav-buttons {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.setup-back-btn {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  background-color: transparent;
+  border: 1px solid #E4E7EA;
+  color: #3D4A52;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease;
+}
+
+.setup-back-btn:hover {
+  border-color: #2b7fff;
+  color: #2b7fff;
+}
+
+.setup-nav-buttons .signup-submit-btn {
+  flex: 2;
+}
