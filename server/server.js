@@ -8,12 +8,17 @@ const categoryRoutes = require("./routes/categoryRoutes");
 const serviceRequestRoutes = require("./routes/serviceRequestRoutes");
 const quoteRoutes = require("./routes/quoteroute");
 const bookingRoutes = require("./routes/bookingroutes");
+
+//Middlewares
 const app = express();
 app.use(cors());
 app.use(express.json());
 const PORT = 5000;
 dotenv.config();
 connectDB();
+
+
+
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });

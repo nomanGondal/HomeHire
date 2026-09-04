@@ -1,14 +1,14 @@
 const mongoose = require("mongoose");
-/*  businessName,
-    bio,
-    category,
-    expertiseDescription,
-    yearsOfExperience,
-    hourlyRate,
-    certificate:optional,
-    portfolioPhoto:optional,
-    serviceArea,
-    travelDistance,*/
+/*      businessName: "",
+        bio: "",
+        category: "",
+        expertiseDescription: "",
+        yearsOfExperience: "",
+        hourlyRate: "",
+        certificate: null,
+        portfolioPhoto: null,
+        serviceArea: "",
+        travelDistance: "",*/
 const providerProfileSchema = new mongoose.Schema(
   {
     user: {
@@ -25,6 +25,10 @@ const providerProfileSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    category: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "ServiceCategory",
+    },
     expertiseDescription: {
       type: [String],
       default: [],
@@ -37,72 +41,32 @@ const providerProfileSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-    
-
-
-
-
-
-
-
-
-
-    categories: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "ServiceCategory",
-      },
-    ],
-    serviceAreas: [
-      {
-        city: { type: String, required: true },
-        areas: [{ type: String }],
-      },
-    ],
-    hourlyRate: {
-      type: Number,
-      default: 0,
+    certificate: {
+      type: String,
     },
-    portfolio: [
-      {
-        title: { type: String },
-        imageUrl: { type: String },
-      },
-    ],
+    portfolioPhoto: {
+      type: String,
+    },
+    serviceArea: {
+      type: String,
+    },
     travelDistance: {
       type: Number,
       default: 0, // in kilometers
     },
+
     cnic: {
       number: { type: String },
       frontImageUrl: { type: String },
       backImageUrl: { type: String },
     },
-    certificates: [
-      {
-        title: { type: String },
-        fileUrl: { type: String },
-      },
-    ],
     Photo: {
       type: String,
     },
-
     verificationStatus: {
       type: String,
       enum: ["pending", "verified", "rejected"],
       default: "pending",
-    },
-    location: {
-      type: {
-        type: String,
-        enum: ["Point"],
-        default: "Point",
-      },
-      coordinates: {
-        type: [Number], // [lng, lat]
-        default: [0, 0],
-      },
     },
     rating: {
       average: { type: Number, default: 0 },

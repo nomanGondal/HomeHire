@@ -18,7 +18,7 @@ const Approutes = () => {
             <Route path='/login' element={<Login/>} />
             <Route path='/provider/check-profile' element={<ProtectedRoute allowedRoles={['provider']}><CheckProfile/></ProtectedRoute>}/>
             <Route path='/provider/home' element={<ProtectedRoute allowedRoles={['provider']}><h1>Provider Home</h1></ProtectedRoute>}/>
-            <Route path='/provider/profile/setup' element={<ProviderProfileSetup/>}/>
+            <Route path='/provider/profile/setup' element={<ProtectedRoute allowedRoles={['provider']}><ProviderProfileSetup/></ProtectedRoute>}/>
             <Route path='/customer/dashboard' element={<ProtectedRoute allowedRoles={['customer']}><CustomerDashboard/></ProtectedRoute>}/>
             <Route path="*" element={<h1>404 Not Found</h1>} />
         </Routes>

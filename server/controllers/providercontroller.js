@@ -3,7 +3,13 @@ const categories = require("../models/ServiceCategory");
 // @route  POST /api/provider/profile
 const createProviderProfile = async (req, res) => {
   try {
-    const { bio, skills, categories, experienceYears, serviceAreas } = req.body;
+    console.log(req.body);   // text fields: businessName, bio, category, etc.
+    console.log(req.files);  // { certificate: [ {path, filename, ...} ], portfolioPhoto: [ {...} ] }
+
+    const certificateFile = req.files?.certificate?.[0];
+    const portfolioPhotoFile = req.files?.portfolioPhoto?.[0];
+
+    const { businessName, bio,category,expertiseDescription,yearsOfExperience,hourlyRat ,serviceArea,travelDistance } = req.body;
 
     const existingProfile = await ProviderProfile.findOne({ user: req.user.id });
     if (existingProfile) {
@@ -12,11 +18,16 @@ const createProviderProfile = async (req, res) => {
 
     const profile = await ProviderProfile.create({
       user: req.user.id, // comes from the JWT via middleware, not from req.body
+      businessName,
       bio,
-      skills,
-      categories,
-      experienceYears,
-      serviceAreas,
+      category,
+      expertiseDescription,
+      yearsOfExperience,
+      hourlyRat,
+      certificate: certificateFile ? certificateFile.path : null,
+      portfolioPhoto: portfolioPhotoFile ? portfolioPhotoFile.path : null,
+      serviceArea,
+      travelDistance,
     });
 
     res.status(201).json({ message: "Provider profile created successfully", profile });
