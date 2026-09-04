@@ -1,0 +1,127 @@
+.provider-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: #F7F8FA;
+}
+
+/* Sidebar */
+.provider-sidebar {
+  width: 220px;
+  background-color: #ffffff;
+  border-right: 1px solid #E4E7EA;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 1rem;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.sidebar-logo {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #132A3A;
+  margin-bottom: 2rem;
+  padding: 0 0.5rem;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 0.75rem;
+  border-radius: 6px;
+  color: #3D4A52;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.sidebar-link:hover {
+  background-color: #F7F8FA;
+  color: #2b7fff;
+}
+
+.sidebar-link.active {
+  background-color: rgba(43, 127, 255, 0.1);
+  color: #2b7fff;
+  font-weight: 600;
+}
+
+.sidebar-logout {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 0.75rem;
+  background: transparent;
+  border: none;
+  border-top: 1px solid #E4E7EA;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  color: #5C6B73;
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-align: left;
+  transition: color 0.15s ease;
+}
+
+.sidebar-logout:hover {
+  color: #e53e3e;
+}
+
+/* Main content */
+.provider-content {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+/* Responsive: sidebar becomes top bar on small screens */
+@media (max-width: 768px) {
+  .provider-layout {
+    flex-direction: column;
+  }
+
+  .provider-sidebar {
+    width: 100%;
+    height: auto;
+    position: static;
+    flex-direction: row;
+    align-items: center;
+    overflow-x: auto;
+    padding: 1rem;
+  }
+
+  .sidebar-logo {
+    margin-bottom: 0;
+    margin-right: 1rem;
+  }
+
+  .sidebar-nav {
+    flex-direction: row;
+    flex: none;
+  }
+
+  .sidebar-link span {
+    display: none;
+  }
+
+  .sidebar-logout {
+    border-top: none;
+    margin-top: 0;
+    padding-top: 0;
+    margin-left: auto;
+  }
+
+  .sidebar-logout span {
+    display: none;
+  }
+}

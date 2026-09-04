@@ -41,7 +41,7 @@ const createProviderProfile = async (req, res) => {
 const getMyProfile = async (req, res) => {
   try {
     const profile = await ProviderProfile.findOne({ user: req.user.id }).populate(
-      "categories",
+      "category",
       "name slug"
     );
 

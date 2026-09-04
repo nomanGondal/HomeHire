@@ -7,25 +7,43 @@ import CustomerDashboard from "../pages/Customer/CustomerDashboard";
 import ProtectedRoute from "../components/common/ProtectedRouter";
 import CheckProfile from "../pages/Provider/CheckProfile";
 import ProviderProfileSetup from "../pages/Provider/ProviderSetupPage";
+import ProviderLayout from "../pages/Provider/components/ProviderLayout";
+import ProviderServices from "../pages/Provider/ProviderServices";
+import ProviderBookings from "../pages/Provider/ProviderBookings";
+import ProviderMessages from "../pages/Provider/ProviderMessages";
+import ProviderQuotes from "../pages/Provider/ProviderQuotes";
+import ProviderProfile from "../pages/Provider/ProviderProfile";
+import ProviderHome from "../pages/Provider/ProviderHome";
 const Approutes = () => {
-  return (
-    
-     <BrowserRouter>
-        <Routes>
-            <Route path='/' element={<Landing/>}/>
-            <Route path='/signup' element={<Signup/>}/>
-            <Route path="/verify-otp" element={<OtpVerification/>} />
-            <Route path='/login' element={<Login/>} />
-            <Route path='/provider/check-profile' element={<ProtectedRoute allowedRoles={['provider']}><CheckProfile/></ProtectedRoute>}/>
-            <Route path='/provider/home' element={<ProtectedRoute allowedRoles={['provider']}><h1>Provider Home</h1></ProtectedRoute>}/>
-            <Route path='/provider/profile/setup' element={<ProtectedRoute allowedRoles={['provider']}><ProviderProfileSetup/></ProtectedRoute>}/>
-            <Route path='/customer/dashboard' element={<ProtectedRoute allowedRoles={['customer']}><CustomerDashboard/></ProtectedRoute>}/>
+   return (
+
+      <BrowserRouter>
+         <Routes>
+            <Route path='/' element={<Landing />} />
+            <Route path='/signup' element={<Signup />} />
+            <Route path="/verify-otp" element={<OtpVerification />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/provider/check-profile' element={<ProtectedRoute allowedRoles={['provider']}><CheckProfile /></ProtectedRoute>} />
+
+
+            <Route path='/provider' element={<ProtectedRoute allowedRoles={['provider']}>
+               <ProviderLayout />
+            </ProtectedRoute>}>
+            <Route path="home" element={<ProviderHome />} />
+            <Route path="services" element={<ProviderServices />} />
+            <Route path="bookings" element={<ProviderBookings />} />
+            <Route path="messages" element={<ProviderMessages />} />
+            <Route path="quotes" element={<ProviderQuotes />} />
+            <Route path="profile" element={<ProviderProfile />} />
+            </Route >
+            <Route path='/provider/profile/setup' element={<ProtectedRoute allowedRoles={['provider']}><ProviderProfileSetup /></ProtectedRoute>} />
+            <Route path='/customer/dashboard' element={<ProtectedRoute allowedRoles={['customer']}><CustomerDashboard /></ProtectedRoute>} />
             <Route path="*" element={<h1>404 Not Found</h1>} />
-        </Routes>
-     </BrowserRouter>
+         </Routes>
+      </BrowserRouter>
 
 
-  )
+   )
 }
 
 export default Approutes

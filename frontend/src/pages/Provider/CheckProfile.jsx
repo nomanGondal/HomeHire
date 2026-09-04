@@ -20,7 +20,7 @@ const CheckProfile = () => {
             },
           }
         );
-
+      console.log("Profile check response:", response);
         if (response.status === 404) {
           // Profile doesn't exist yet
           navigate("/provider/profile/setup", { replace: true });
