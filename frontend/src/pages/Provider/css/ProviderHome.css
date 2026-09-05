@@ -1,0 +1,251 @@
+/* ProviderHome.css */
+
+.home-loading {
+  text-align: center;
+  color: #5C6B73;
+  margin-top: 3rem;
+}
+
+.home-header {
+  margin-bottom: 1.5rem;
+}
+
+.home-heading {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #132A3A;
+  margin-bottom: 0.35rem;
+}
+
+.home-badge {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+}
+
+.home-badge.verified {
+  color: #2b7fff;
+  background-color: rgba(43, 127, 255, 0.1);
+}
+
+.home-badge.pending {
+  color: #b7791f;
+  background-color: rgba(183, 121, 31, 0.1);
+}
+
+/* Stats grid */
+.home-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background-color: #ffffff;
+  border: 1px solid #E4E7EA;
+  border-radius: 10px;
+  padding: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.stat-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background-color: rgba(43, 127, 255, 0.1);
+  color: #2b7fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.stat-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #132A3A;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: #5C6B73;
+}
+
+/* Sections */
+.home-section {
+  margin-bottom: 2rem;
+}
+
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #132A3A;
+  margin-bottom: 1rem;
+}
+
+/* Job requests */
+.job-requests-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.job-card {
+  background-color: #ffffff;
+  border: 1px solid #E4E7EA;
+  border-radius: 10px;
+  padding: 1rem 1.1rem;
+}
+
+.job-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.job-category {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #2b7fff;
+  background-color: rgba(43, 127, 255, 0.08);
+  padding: 0.15rem 0.55rem;
+  border-radius: 4px;
+}
+
+.job-time {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.78rem;
+  color: #9AA5AB;
+}
+
+.job-description {
+  font-size: 0.9rem;
+  color: #3D4A52;
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+}
+
+.job-card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.job-area {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.82rem;
+  color: #5C6B73;
+}
+
+.job-quote-btn {
+  background-color: #2b7fff;
+  color: #ffffff;
+  border: none;
+  padding: 0.45rem 0.9rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.job-quote-btn:hover {
+  background-color: #1a5bc2;
+}
+
+/* Recent reviews */
+.reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.review-card {
+  background-color: #ffffff;
+  border: 1px solid #E4E7EA;
+  border-radius: 10px;
+  padding: 1rem 1.1rem;
+}
+
+.review-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.4rem;
+}
+
+.review-customer {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #132A3A;
+}
+
+.review-time {
+  font-size: 0.78rem;
+  color: #9AA5AB;
+}
+
+.review-stars {
+  display: flex;
+  gap: 0.15rem;
+  margin-bottom: 0.5rem;
+}
+
+.review-comment {
+  font-size: 0.88rem;
+  color: #3D4A52;
+  line-height: 1.4;
+}
+
+/* Recent activity */
+.activity-list {
+  background-color: #ffffff;
+  border: 1px solid #E4E7EA;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.activity-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.85rem 1.1rem;
+  border-bottom: 1px solid #E4E7EA;
+  font-size: 0.88rem;
+}
+
+.activity-item:last-child {
+  border-bottom: none;
+}
+
+.activity-text {
+  color: #3D4A52;
+}
+
+.activity-time {
+  color: #9AA5AB;
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .job-card-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .job-quote-btn {
+    width: 100%;
+  }
+}

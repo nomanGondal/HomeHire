@@ -3,13 +3,39 @@ const categories = require("../models/ServiceCategory");
 // @route  POST /api/provider/profile
 const createProviderProfile = async (req, res) => {
   try {
-    console.log(req.body);   // text fields: businessName, bio, category, etc.
-    console.log(req.files);  // { certificate: [ {path, filename, ...} ], portfolioPhoto: [ {...} ] }
-
     const certificateFile = req.files?.certificate?.[0];
     const portfolioPhotoFile = req.files?.portfolioPhoto?.[0];
 
-    const { businessName, bio,category,expertiseDescription,yearsOfExperience,hourlyRat ,serviceArea,travelDistance } = req.body;
+    const { businessName, bio, services, serviceArea, travelDistance, } = req.body;
+  
+    // services aata hai JSON string ke roop mein (FormData ki wajah se) — parse karna zaroori hai
+    let parsedServices;
+
+try {
+  const services = req.body.services;
+  parsedServices = typeof services === "string" ? JSON.parse(services) : services;
+
+} catch (parseErr) {
+  return res.status(400).json({ message: "Invalid services format" });
+}
+
+if (!Array.isArray(parsedServices) || parsedServices.length === 0) {
+  return res.status(400).json({ message: "At least one service is required" });
+}
+
+
+    if (!Array.isArray(parsedServices) || parsedServices.length === 0) {
+      return res.status(400).json({ message: "At least one service is required" });
+    }
+
+    // Har service entry validate karein
+    for (const service of parsedServices) {
+      if (!service.category || service.hourlyRate === undefined) {
+        return res.status(400).json({
+          message: "Each service must have a category and hourly rate",
+        });
+      }
+    }
 
     const existingProfile = await ProviderProfile.findOne({ user: req.user.id });
     if (existingProfile) {
@@ -17,13 +43,16 @@ const createProviderProfile = async (req, res) => {
     }
 
     const profile = await ProviderProfile.create({
-      user: req.user.id, // comes from the JWT via middleware, not from req.body
+      user: req.user.id, // JWT se aata hai, req.body se nahi
       businessName,
       bio,
-      category,
-      expertiseDescription,
-      yearsOfExperience,
-      hourlyRat,
+      services: parsedServices.map((s) => ({
+        category: s.category,
+        description: s.description || "",
+        hourlyRate: s.hourlyRate,
+        yearsOfExperience: s.yearsOfExperience,
+        isActive: true,
+      })),
       certificate: certificateFile ? certificateFile.path : null,
       portfolioPhoto: portfolioPhotoFile ? portfolioPhotoFile.path : null,
       serviceArea,
@@ -41,7 +70,7 @@ const createProviderProfile = async (req, res) => {
 const getMyProfile = async (req, res) => {
   try {
     const profile = await ProviderProfile.findOne({ user: req.user.id }).populate(
-      "category",
+      "services.category",
       "name slug"
     );
 
@@ -58,12 +87,57 @@ const getMyProfile = async (req, res) => {
 // @route  PUT /api/provider/profile/me
 const updateMyProfile = async (req, res) => {
   try {
-    const { bio, skills, categories, experienceYears, serviceAreas } = req.body;
+    const { businessName, bio, services, serviceArea, travelDistance } = req.body;
+
+    const updateData = {};
+
+    // Sirf jo fields bheji gayi hain unhe hi update karo (partial update support)
+    if (businessName !== undefined) updateData.businessName = businessName;
+    if (bio !== undefined) updateData.bio = bio;
+    if (serviceArea !== undefined) updateData.serviceArea = serviceArea;
+    if (travelDistance !== undefined) updateData.travelDistance = travelDistance;
+
+    // services agar bheji gayi hai to parse aur validate karo
+    if (services !== undefined) {
+      let parsedServices;
+
+      try {
+        parsedServices = typeof services === "string" ? JSON.parse(services) : services;
+      } catch (parseErr) {
+        return res.status(400).json({ message: "Invalid services format" });
+      }
+
+      if (!Array.isArray(parsedServices) || parsedServices.length === 0) {
+        return res.status(400).json({ message: "At least one service is required" });
+      }
+
+      for (const service of parsedServices) {
+        if (!service.category || service.hourlyRate === undefined) {
+          return res.status(400).json({
+            message: "Each service must have a category and hourly rate",
+          });
+        }
+      }
+
+      updateData.services = parsedServices.map((s) => ({
+        category: s.category,
+        description: s.description || "",
+        hourlyRate: s.hourlyRate,
+        yearsOfExperience: s.yearsOfExperience,
+        isActive: s.isActive !== undefined ? s.isActive : true,
+      }));
+    }
+
+    // Agar naya certificate/photo upload hui hai to wo bhi update karo
+    const certificateFile = req.files?.certificate?.[0];
+    const portfolioPhotoFile = req.files?.portfolioPhoto?.[0];
+    if (certificateFile) updateData.certificate = certificateFile.path;
+    if (portfolioPhotoFile) updateData.portfolioPhoto = portfolioPhotoFile.path;
 
     const profile = await ProviderProfile.findOneAndUpdate(
       { user: req.user.id },
-      { bio, skills, categories, experienceYears, serviceAreas },
-      { new: true, runValidators: true } // return updated doc, still validate schema rules
+      updateData,
+      { new: true, runValidators: true }
     );
 
     if (!profile) {

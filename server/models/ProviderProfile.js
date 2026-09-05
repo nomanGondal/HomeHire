@@ -25,22 +25,32 @@ const providerProfileSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
-    category: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "ServiceCategory",
-    },
-    expertiseDescription: {
-      type: [String],
-      default: [],
-    },
-    yearsOfExperience: {
-      type: Number,
-      default: 0,
-    },
-    hourlyRate: {
-      type: Number,
-      default: 0,
-    },
+    services: [
+      {
+        category: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "ServiceCategory",
+          required: true,
+        },
+        description: {
+          type: String,
+          trim: true,
+        },
+        hourlyRate: {
+          type: Number,
+          min: 0,
+        },
+        yearsOfExperience: {
+          type: Number,
+          default: 0,
+        },
+        isActive: {
+          type: Boolean,
+          default: true, // provider is/pause kar sake individual service
+        },
+      },
+    ],
+
     certificate: {
       type: String,
     },

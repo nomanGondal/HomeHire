@@ -1,17 +1,17 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import { Home, Wrench, Calendar, MessageSquare, FileText, User, LogOut } from "lucide-react";
-import "./ProviderLayout.css";
+import { Home, Search, Calendar, MessageSquare, FileText, User, LogOut } from "lucide-react";
+import "../css/CustomerLayout.css";
 
 const navItems = [
-  { to: "/provider/home", label: "Home", icon: Home },
-  { to: "/provider/services", label: "Services", icon: Wrench },
-  { to: "/provider/bookings", label: "Bookings", icon: Calendar },
-  { to: "/provider/messages", label: "Messages", icon: MessageSquare },
-  { to: "/provider/quotes", label: "Quotes", icon: FileText },
-  { to: "/provider/profile", label: "Profile", icon: User },
+  { to: "/customer/home", label: "Home", icon: Home },
+  { to: "/customer/find-providers", label: "Find Providers", icon: Search },
+  { to: "/customer/bookings", label: "My Bookings", icon: Calendar },
+  { to: "/customer/messages", label: "Messages", icon: MessageSquare },
+  { to: "/customer/requests", label: "My Requests", icon: FileText },
+  { to: "/customer/profile", label: "Profile", icon: User },
 ];
 
-const ProviderLayout = () => {
+const CustomerLayout = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -21,8 +21,8 @@ const ProviderLayout = () => {
   };
 
   return (
-    <div className="provider-layout">
-      <aside className="provider-sidebar">
+    <div className="customer-layout">
+      <aside className="customer-sidebar">
         <div className="sidebar-logo">Ustaad</div>
 
         <nav className="sidebar-nav">
@@ -46,10 +46,12 @@ const ProviderLayout = () => {
         </button>
       </aside>
 
-      <main className="provider-content">
-        <Outlet />
-      </main>
-       <footer className="provider-footer">
+      <div className="customer-main">
+        <main className="customer-content">
+          <Outlet />
+        </main>
+
+        <footer className="customer-footer">
           <span className="footer-copyright">
             © {new Date().getFullYear()} Ustaad. All rights reserved.
           </span>
@@ -59,8 +61,9 @@ const ProviderLayout = () => {
             <a href="/privacy">Privacy Policy</a>
           </div>
         </footer>
+      </div>
     </div>
   );
 };
 
-export default ProviderLayout;
+export default CustomerLayout;

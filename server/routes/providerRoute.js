@@ -10,7 +10,12 @@ router.post("/profile", protect,restrictTo("provider"),upload.fields([
   ]) , createProviderProfile);
   
 router.get("/profile/me", protect, restrictTo("provider"), getMyProfile);
-router.put("/profile/me", protect, restrictTo("provider"), updateMyProfile);
+
+router.put("/profile/me", protect, upload.fields([
+  { name: "certificate", maxCount: 1 },
+  { name: "portfolioPhoto", maxCount: 1 },
+]), updateMyProfile);
+
 router.get("/search", searchProviders); // public — no auth needed
 
 module.exports = router;

@@ -3,7 +3,7 @@ import Landing from '../pages/Landing/Landing'
 import Signup from '../pages/signup/Signup'
 import OtpVerification from '../pages/signup/OtpVarification'
 import Login from '../pages/login/Login'
-import CustomerDashboard from "../pages/Customer/CustomerDashboard";
+
 import ProtectedRoute from "../components/common/ProtectedRouter";
 import CheckProfile from "../pages/Provider/CheckProfile";
 import ProviderProfileSetup from "../pages/Provider/ProviderSetupPage";
@@ -14,6 +14,7 @@ import ProviderMessages from "../pages/Provider/ProviderMessages";
 import ProviderQuotes from "../pages/Provider/ProviderQuotes";
 import ProviderProfile from "../pages/Provider/ProviderProfile";
 import ProviderHome from "../pages/Provider/ProviderHome";
+import CustomerLayout from "../pages/Customer/components/CustomerLayout";
 const Approutes = () => {
    return (
 
@@ -37,7 +38,16 @@ const Approutes = () => {
             <Route path="profile" element={<ProviderProfile />} />
             </Route >
             <Route path='/provider/profile/setup' element={<ProtectedRoute allowedRoles={['provider']}><ProviderProfileSetup /></ProtectedRoute>} />
-            <Route path='/customer/dashboard' element={<ProtectedRoute allowedRoles={['customer']}><CustomerDashboard /></ProtectedRoute>} />
+
+            <Route path='/customer/dashboard' 
+                   element={<ProtectedRoute allowedRoles={['customer']}><CustomerLayout /></ProtectedRoute>} >
+                      <Route path="home" element={<CustomerHome />} />
+  <Route path="find-providers" element={<CustomerFindProviders />} />
+  <Route path="bookings" element={<CustomerBookings />} />
+  <Route path="messages" element={<CustomerMessages />} />
+  <Route path="requests" element={<CustomerRequests />} />
+  <Route path="profile" element={<CustomerProfile />} />
+            </Route>
             <Route path="*" element={<h1>404 Not Found</h1>} />
          </Routes>
       </BrowserRouter>
