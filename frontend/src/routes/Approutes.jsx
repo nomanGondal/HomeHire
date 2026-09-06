@@ -15,6 +15,13 @@ import ProviderQuotes from "../pages/Provider/ProviderQuotes";
 import ProviderProfile from "../pages/Provider/ProviderProfile";
 import ProviderHome from "../pages/Provider/ProviderHome";
 import CustomerLayout from "../pages/Customer/components/CustomerLayout";
+import CustomerHome from "../pages/Customer/CustomerHome";
+import CustomerFindProviders from "../pages/Customer/CustomerFindProviders";
+import CustomerBookings from "../pages/Customer/CustomerBookings";
+import CustomerMessages from "../pages/Customer/CustomerMessages";
+import CustomerRequests from "../pages/Customer/CustomerRequests";
+import CustomerProfile from "../pages/Customer/CustomerProfile";
+
 const Approutes = () => {
    return (
 
@@ -30,23 +37,23 @@ const Approutes = () => {
             <Route path='/provider' element={<ProtectedRoute allowedRoles={['provider']}>
                <ProviderLayout />
             </ProtectedRoute>}>
-            <Route path="home" element={<ProviderHome />} />
-            <Route path="services" element={<ProviderServices />} />
-            <Route path="bookings" element={<ProviderBookings />} />
-            <Route path="messages" element={<ProviderMessages />} />
-            <Route path="quotes" element={<ProviderQuotes />} />
-            <Route path="profile" element={<ProviderProfile />} />
+               <Route path="home" element={<ProviderHome />} />
+               <Route path="services" element={<ProviderServices />} />
+               <Route path="bookings" element={<ProviderBookings />} />
+               <Route path="messages" element={<ProviderMessages />} />
+               <Route path="quotes" element={<ProviderQuotes />} />
+               <Route path="profile" element={<ProviderProfile />} />
             </Route >
             <Route path='/provider/profile/setup' element={<ProtectedRoute allowedRoles={['provider']}><ProviderProfileSetup /></ProtectedRoute>} />
 
-            <Route path='/customer/dashboard' 
-                   element={<ProtectedRoute allowedRoles={['customer']}><CustomerLayout /></ProtectedRoute>} >
-                      <Route path="home" element={<CustomerHome />} />
-  <Route path="find-providers" element={<CustomerFindProviders />} />
-  <Route path="bookings" element={<CustomerBookings />} />
-  <Route path="messages" element={<CustomerMessages />} />
-  <Route path="requests" element={<CustomerRequests />} />
-  <Route path="profile" element={<CustomerProfile />} />
+            <Route path='/customer'
+               element={<ProtectedRoute allowedRoles={['customer']}><CustomerLayout /></ProtectedRoute>} >
+               <Route path="home" element={<CustomerHome />} />
+               <Route path="find-providers" element={<CustomerFindProviders />} />
+               <Route path="bookings" element={<CustomerBookings />} />
+               <Route path="messages" element={<CustomerMessages />} />
+               <Route path="requests" element={<CustomerRequests />} />
+               <Route path="profile" element={<CustomerProfile />} />
             </Route>
             <Route path="*" element={<h1>404 Not Found</h1>} />
          </Routes>
