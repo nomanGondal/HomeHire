@@ -21,7 +21,7 @@ import CustomerBookings from "../pages/Customer/CustomerBookings";
 import CustomerMessages from "../pages/Customer/CustomerMessages";
 import CustomerRequests from "../pages/Customer/CustomerRequests";
 import CustomerProfile from "../pages/Customer/CustomerProfile";
-
+import PageNotFound from "../pages/PageNotFound";
 const Approutes = () => {
    return (
 
@@ -55,7 +55,7 @@ const Approutes = () => {
                <Route path="requests" element={<CustomerRequests />} />
                <Route path="profile" element={<CustomerProfile />} />
             </Route>
-            <Route path="*" element={<h1>404 Not Found</h1>} />
+            <Route path="*" element={<PageNotFound />} />
          </Routes>
       </BrowserRouter>
 
