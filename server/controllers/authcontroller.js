@@ -2,6 +2,7 @@
 const Otp = require("../models/otp");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
+const CustomerProfile = require("../models/CustomerProfile");
 /* @route  POST /api/auth/signup
 const signup = async (req, res) => {
   try {
@@ -130,7 +131,11 @@ const verifyOtp = async (req, res) => {
       role,
       isPhoneVerified: true, // verified right at creation
     });
-
+  
+    if(user.role === "customer") {
+      await CustomerProfile.create({ user: user._id , address: {} }); // create empty address array for new customer
+    }
+    
     await Otp.deleteOne({ _id: record._id }); // one-time use, remove pending data
 
     res.status(201).json({

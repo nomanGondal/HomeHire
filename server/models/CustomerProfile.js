@@ -8,15 +8,13 @@ const customerProfileSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    addresses: [
+    address:
       {
-        label: { type: String, default: "Home" }, // "Home", "Office", etc.
-        fullAddress: { type: String, required: true },
-        city: { type: String, required: true },
+        label: { type: String, }, // "Home", "Office", etc.
+        fullAddress: { type: String,  },
+        city: { type: String, },
         area: { type: String },
-        isDefault: { type: Boolean, default: false },
       },
-    ],
   },
   { timestamps: true }
 );
