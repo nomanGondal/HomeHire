@@ -1,0 +1,131 @@
+/* CustomerProfile.css */
+
+.profile-loading {
+  text-align: center;
+  color: #5C6B73;
+  margin-top: 3rem;
+}
+
+.profile-header {
+  margin-bottom: 1.5rem;
+}
+
+.profile-heading {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #132A3A;
+  margin-bottom: 0.3rem;
+}
+
+.profile-subtext {
+  font-size: 0.9rem;
+  color: #5C6B73;
+}
+
+.profile-page-error {
+  margin-bottom: 1rem;
+}
+
+/* Sections */
+.profile-section {
+  background-color: #ffffff;
+  border: 1px solid #E4E7EA;
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.profile-section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #132A3A;
+  margin-bottom: 1.25rem;
+}
+
+.profile-section-title h2 {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+/* Form layout */
+.profile-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.profile-section .form-group {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.profile-section label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #3D4A52;
+}
+
+.profile-section input {
+  padding: 0.65rem 0.9rem;
+  border: 1px solid #E4E7EA;
+  border-radius: 6px;
+  background-color: #F7F8FA;
+  color: #132A3A;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.profile-section input:focus {
+  border-color: #2b7fff;
+}
+
+.profile-section input:disabled {
+  color: #9AA5AB;
+  cursor: not-allowed;
+}
+
+.field-hint {
+  font-size: 0.75rem;
+  color: #9AA5AB;
+}
+
+.field-success {
+  font-size: 0.82rem;
+  color: #2f855a;
+  margin-bottom: 0.75rem;
+}
+
+/* Save button */
+.profile-save-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background-color: #2b7fff;
+  color: #ffffff;
+  border: none;
+  padding: 0.6rem 1.1rem;
+  border-radius: 6px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.profile-save-btn:hover {
+  background-color: #1a5bc2;
+}
+
+.profile-save-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 480px) {
+  .profile-form-row {
+    grid-template-columns: 1fr;
+  }
+}
