@@ -68,7 +68,7 @@ const Login = () => {
       if (data.user?.role === "provider") {
         navigate("/provider/check-profile");
       } else {
-        navigate("/customer/dashboard");
+        navigate("/customer/home");
       }
 
     } catch (err) {

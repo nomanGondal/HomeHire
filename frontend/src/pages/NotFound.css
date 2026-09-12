@@ -1,3 +1,8 @@
+.not-found-page {
+	min-height: 100vh;
+	background: #f7f9fb;
+	color: #132a3a;
+}
 .not-found-content {
 	width: min(100% - 3rem, 720px);
 	min-height: calc(100vh - 76px);
