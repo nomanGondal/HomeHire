@@ -8,7 +8,7 @@ const categoryRoutes = require("./routes/categoryRoutes");
 const serviceRequestRoutes = require("./routes/serviceRequestRoutes");
 const quoteRoutes = require("./routes/quoteroute");
 const bookingRoutes = require("./routes/bookingroutes");
-
+const customerProfileRoutes = require("./routes/customerprofile");
 //Middlewares
 const app = express();
 app.use(cors());
@@ -28,6 +28,7 @@ app.use("/api/provider", providerRoutes);
 app.use("/api/quotes", quoteRoutes);
 app.use("/api/requests", serviceRequestRoutes);
 app.use("/api/bookings", bookingRoutes);
+app.use("/api/customer", customerProfileRoutes);
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}...`);
 });
