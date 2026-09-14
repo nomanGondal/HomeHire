@@ -28,13 +28,13 @@ const features = [
   },
 ];
 
-const WhyUstaad = () => {
+const WhyHomehire = () => {
   return (
     <section className="bg-offwhite">
       <div className="max-w-6xl mx-auto px-6 md:px-10 py-20">
         <div className="text-center max-w-xl mx-auto mb-14">
           <h2 className="text-3xl font-bold text-navy tracking-tight">
-            Why Ustaad
+            Why Homehire
           </h2>
           <p className="text-slate mt-2">
             Built around trust, transparency, and local convenience.
@@ -61,4 +61,4 @@ const WhyUstaad = () => {
   );
 };
 
-export default WhyUstaad;
+export default WhyHomehire;

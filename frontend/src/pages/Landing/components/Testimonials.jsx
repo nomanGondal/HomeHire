@@ -24,7 +24,7 @@ const Testimonials = () => {
             Customer Testimonials
           </h2>
           <p className="text-slate mt-2">
-            What homeowners say after booking through Ustaad.
+            What homeowners say after booking through Homehire.
           </p>
         </div>
 

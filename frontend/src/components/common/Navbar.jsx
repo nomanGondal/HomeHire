@@ -7,7 +7,7 @@ const Navbar = () => {
       <Link to="/" className="navbar-logo">
         <Wrench size={22} strokeWidth={2.2} />
         <div className="navbar-brand">
-          <span className="navbar-title">Ustaad</span>
+          <span className="navbar-title">Homehire</span>
           <span className="navbar-tagline">Trusted local home services</span>
         </div>
       </Link>

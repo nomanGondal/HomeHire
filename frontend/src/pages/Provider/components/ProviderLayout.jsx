@@ -23,7 +23,7 @@ const ProviderLayout = () => {
   return (
     <div className="provider-layout">
       <aside className="provider-sidebar">
-        <div className="sidebar-logo">Ustaad</div>
+        <div className="sidebar-logo">Homehire</div>
 
         <nav className="sidebar-nav">
           {navItems.map(({ to, label, icon: Icon }) => (

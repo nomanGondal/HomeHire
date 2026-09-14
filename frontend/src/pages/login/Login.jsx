@@ -81,7 +81,7 @@ const Login = () => {
   return (
     <div className="signup-page">
       <div className="signup-form-container">
-        <h1 className="signup-heading">Login to Ustaad</h1>
+        <h1 className="signup-heading">Login to Homehire</h1>
         <p className="signup-subtext">
           Welcome back. Login to continue.
         </p>

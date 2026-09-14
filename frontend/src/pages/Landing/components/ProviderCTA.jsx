@@ -16,7 +16,7 @@ const ProviderCTA = () => {
         For Service Providers
       </h2>
       <p className="text-slate mt-2 text-base">
-        Join Ustaad to get local customer requests and grow your business.
+        Join Homehire to get local customer requests and grow your business.
       </p>
     </div>
 

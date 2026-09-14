@@ -4,7 +4,7 @@ import Navbar from '../../components/common/Navbar'
 import Services from '../Landing/components/Services'
 import heroImg from '../../assets/hero.jpeg'
 import HowItWork from '../Landing/components/HowItWork'
-import WhyUstaad from '../Landing/components/WhyUstaad'
+import WhyHomehire from '../Landing/components/WhyHomehire'
 import ProviderCTA from './components/ProviderCTA'
 import Testimonials from './components/Testimonials'
 import Faq from './components/Faq'
@@ -78,7 +78,7 @@ const Landing = () => {
 
       <Services />
       <HowItWork/>
-      <WhyUstaad/>
+      <WhyHomehire/>
       <ProviderCTA/>
       <Testimonials/>
       <Faq/>

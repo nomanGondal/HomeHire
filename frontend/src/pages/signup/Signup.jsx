@@ -91,7 +91,7 @@ const Signup = () => {
   return (
     <div className="signup-page">
       <div className="signup-form-container">
-        <h1 className="signup-heading">Create your Ustaad Account</h1>
+        <h1 className="signup-heading">Create your Homehire Account</h1>
         <p className="signup-subtext">
           Fast signup for trusted local home services in Pakistan.
         </p>

@@ -13,7 +13,7 @@ const Footer = () => {
     <footer className="bg-white border-t border-borderc">
       <div className="max-w-6xl mx-auto px-6 md:px-10 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
         <p className="text-slate text-sm text-center sm:text-left">
-          © 2026 Ustaad. Trusted local home services.
+          © 2026 Homehire. Trusted local home services.
         </p>
 
         <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2">

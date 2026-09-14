@@ -115,7 +115,7 @@ const CustomerFindProviders = () => {
                       : "No reviews yet"}
                   </span>
                   <span className="provider-result-price">
-                    From PKR {Math.min(...provider.services.map((s) => s.hourlyRate))}/hr
+                   From PKR {Math.min(...provider.services.map((s) => s.hourlyRate))}/hr
                   </span>
                 </div>
 

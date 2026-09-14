@@ -23,7 +23,7 @@ const CustomerLayout = () => {
   return (
     <div className="customer-layout">
       <aside className="customer-sidebar">
-        <div className="sidebar-logo">Ustaad</div>
+        <div className="sidebar-logo">Homehire</div>
 
         <nav className="sidebar-nav">
           {navItems.map(({ to, label, icon: Icon }) => (
@@ -53,7 +53,7 @@ const CustomerLayout = () => {
 
         <footer className="customer-footer">
           <span className="footer-copyright">
-            © {new Date().getFullYear()} Ustaad. All rights reserved.
+            © {new Date().getFullYear()} Homehire. All rights reserved.
           </span>
           <div className="footer-links">
             <a href="/support">Help</a>

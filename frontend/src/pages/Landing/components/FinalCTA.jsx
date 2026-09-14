@@ -9,7 +9,7 @@ const FinalCTA = () => {
         </h2>
 
         <p className="text-white/90 text-base leading-relaxed max-w-xl">
-          Find a service now or join Ustaad as a provider and start receiving
+          Find a service now or join Homehire as a provider and start receiving
           local customer requests.
         </p>
 

@@ -26,7 +26,7 @@ const HowItWork = () => {
     <section className="max-w-6xl mx-auto px-6 md:px-10 py-20">
       <div className="text-center max-w-xl mx-auto mb-14">
         <h2 className="text-3xl font-bold text-navy tracking-tight">
-          How Ustaad Works
+          How Homehire Works
         </h2>
         <p className="text-slate mt-2">
           A simple booking flow designed for speed and trust.
