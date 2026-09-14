@@ -2,7 +2,7 @@ import React from 'react'
 
 const ProviderQuotes = () => {
   return (
-    <div>ProviderQuotes</div>
+    <div>Provide</div>
   )
 }
 
