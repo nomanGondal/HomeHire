@@ -95,8 +95,7 @@ const providerProfileSchema = new mongoose.Schema(
 );
 
 // 2dsphere index enables "find providers near this location" geo queries
-providerProfileSchema.index({ location: "2dsphere" });
-providerProfileSchema.index({ categories: 1 });
+providerProfileSchema.index({ "services.category": 1 });
 providerProfileSchema.index({ verificationStatus: 1 });
 
 module.exports = mongoose.model("ProviderProfile", providerProfileSchema);

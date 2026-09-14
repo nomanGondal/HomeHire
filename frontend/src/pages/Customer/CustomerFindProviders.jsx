@@ -1,149 +1,121 @@
-import { useState } from "react";
-import { Star, MapPin, BadgeCheck, SlidersHorizontal } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Star, MapPin, BadgeCheck } from "lucide-react";
 import "././css/FindProvider.css";
 
-
-const CATEGORIES = ["All", "Electrician", "Plumber", "AC Technician", "Appliance Repair", "Carpenter"];
-
-const PROVIDERS = [
-  {
-    id: 1,
-    name: "Ali Electric Works",
-    category: "Electrician",
-    area: "Gulberg, Lahore",
-    rating: 4.8,
-    reviewCount: 132,
-    isVerified: true,
-    startingPrice: 500,
-  },
-  {
-    id: 2,
-    name: "Cool Breeze AC Services",
-    category: "AC Technician",
-    area: "Model Town, Lahore",
-    rating: 4.9,
-    reviewCount: 98,
-    isVerified: true,
-    startingPrice: 800,
-  },
-  {
-    id: 3,
-    name: "Speedy Plumbers",
-    category: "Plumber",
-    area: "Johar Town, Lahore",
-    rating: 4.6,
-    reviewCount: 54,
-    isVerified: false,
-    startingPrice: 400,
-  },
-  {
-    id: 4,
-    name: "Ahmed Carpentry",
-    category: "Carpenter",
-    area: "DHA Phase 5, Lahore",
-    rating: 4.7,
-    reviewCount: 76,
-    isVerified: true,
-    startingPrice: 600,
-  },
-  {
-    id: 5,
-    name: "Fix-It Appliance Repair",
-    category: "Appliance Repair",
-    area: "Iqbal Town, Lahore",
-    rating: 4.5,
-    reviewCount: 41,
-    isVerified: false,
-    startingPrice: 450,
-  },
-];
-
 const CustomerFindProviders = () => {
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [searchArea, setSearchArea] = useState("");
-  const [sortBy, setSortBy] = useState("rating");
+  const [categories, setCategories] = useState([]);
+  const [providers, setProviders] = useState([]);
+  const [categoryId, setCategoryId] = useState("");
+  const [loading, setLoading] = useState(true);
 
-  const filteredProviders = PROVIDERS
-    .filter((p) => selectedCategory === "All" || p.category === selectedCategory)
-    .filter((p) => p.area.toLowerCase().includes(searchArea.toLowerCase()))
-    .sort((a, b) => {
-      if (sortBy === "rating") return b.rating - a.rating;
-      if (sortBy === "price") return a.startingPrice - b.startingPrice;
-      return 0;
-    });
+  const fetchProviders = async (categoryId = "") => {
+    setLoading(true);
+    const token = localStorage.getItem("token");
+    const url = categoryId
+      ? `http://localhost:5000/api/customerhome/providers?category=${categoryId}`
+      : "http://localhost:5000/api/customerhome/providers";
+
+    try {
+      const res = await fetch(url, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await res.json();
+      setProviders(data.providers || []);
+      console.log("Fetched providers:", data.providers);
+    } catch (error) {
+      console.error("Error fetching providers:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    console.log("Fetching categories...");
+    const fetchCategories = async () => {
+      const token = localStorage.getItem("token");
+      try {
+        const res = await fetch("http://127.0.0.1:5000/api/categories/", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+        const data = await res.json();
+        setCategories(data.categories);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    fetchCategories();
+    fetchProviders();
+  }, []);
+
+  const handleCategoryChange = (e) => {
+    const value = e.target.value;
+    setCategoryId(value);
+    fetchProviders(value);
+  };
 
   return (
     <div className="find-providers-page">
-      <div className="find-header">
-        <h1 className="find-heading">Find Providers</h1>
-        <p className="find-subtext">Browse trusted local professionals near you</p>
-      </div>
+      <h1 className="find-heading">Find Providers</h1>
 
-     
-      <div className="filters-bar">
-        <div className="filter-group">
-          <label>Category</label>
-          <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
-            {CATEGORIES.map((cat) => (
-              <option key={cat} value={cat}>{cat}</option>
-            ))}
-          </select>
-        </div>
+      <select className="category-filter-select" value={categoryId} onChange={handleCategoryChange}>
+        <option value="">ALL</option>
+        {categories.map((category) => (
+          <option key={category._id} value={category._id}>
+            {category.name}
+          </option>
+        ))}
+      </select>
 
-        <div className="filter-group">
-          <label>Area</label>
-          <input
-            type="text"
-            placeholder="e.g. Gulberg, Lahore"
-            value={searchArea}
-            onChange={(e) => setSearchArea(e.target.value)}
-          />
-        </div>
-
-        <div className="filter-group">
-          <label>Sort by</label>
-          <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-            <option value="rating">Highest Rated</option>
-            <option value="price">Lowest Price</option>
-          </select>
-        </div>
-      </div>
-
-      {/* Results */}
-      {filteredProviders.length === 0 ? (
-        <div className="empty-state">
-          <SlidersHorizontal size={32} color="#9AA5AB" />
-          <p>No providers match your filters. Try adjusting your search.</p>
-        </div>
+      {loading ? (
+        <p className="find-loading">Loading providers...</p>
+      ) : providers.length === 0 ? (
+        <p className="find-loading">No providers found.</p>
       ) : (
         <div className="providers-grid">
-          {filteredProviders.map((provider) => (
-            <div className="provider-result-card" key={provider.id}>
+          {providers.map((provider) => (
+            <div className="provider-result-card" key={provider._id}>
               <div className="provider-avatar-placeholder">
-                {provider.name.charAt(0)}
+                {provider.businessName?.charAt(0).toUpperCase()}
               </div>
 
               <div className="provider-info">
                 <div className="provider-name-row">
-                  <span className="provider-result-name">{provider.name}</span>
-                  {provider.isVerified && (
+                  <span className="provider-result-name">{provider.businessName}</span>
+                  {provider.verificationStatus === "pending" && (
                     <BadgeCheck size={16} color="#2b7fff" />
                   )}
                 </div>
 
-                <span className="provider-result-category">{provider.category}</span>
+                <div className="provider-category-tags">
+                  {provider.services?.map((service) => (
+                    <span className="category-tag" key={service._id}>
+                      {service.category?.name}
+                    </span>
+                  ))}
+                </div>
 
                 <span className="provider-result-area">
-                  <MapPin size={13} /> {provider.area}
+                  <MapPin size={13} /> {provider.serviceArea}
                 </span>
 
                 <div className="provider-result-bottom">
                   <span className="provider-result-rating">
                     <Star size={14} fill="#2b7fff" color="#2b7fff" />
-                    {provider.rating} ({provider.reviewCount})
+                    {provider.rating?.average > 0
+                      ? `${provider.rating.average} (${provider.rating.count})`
+                      : "No reviews yet"}
                   </span>
                   <span className="provider-result-price">
-                    From PKR {provider.startingPrice}/hr
+                    From PKR {Math.min(...provider.services.map((s) => s.hourlyRate))}/hr
                   </span>
                 </div>
 

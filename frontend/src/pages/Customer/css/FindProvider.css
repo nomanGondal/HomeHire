@@ -1,49 +1,13 @@
 /* CustomerFindProviders.css */
 
-.find-header {
-  margin-bottom: 1.5rem;
-}
-
 .find-heading {
   font-size: 1.4rem;
   font-weight: 700;
   color: #132A3A;
-  margin-bottom: 0.3rem;
+  margin-bottom: 1rem;
 }
 
-.find-subtext {
-  font-size: 0.9rem;
-  color: #5C6B73;
-}
-
-/* Filters */
-.filters-bar {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  background-color: #ffffff;
-  border: 1px solid #E4E7EA;
-  border-radius: 10px;
-  padding: 1rem 1.1rem;
-  margin-bottom: 1.5rem;
-}
-
-.filter-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  flex: 1;
-  min-width: 150px;
-}
-
-.filter-group label {
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: #3D4A52;
-}
-
-.filter-group input,
-.filter-group select {
+.category-filter-select {
   padding: 0.55rem 0.75rem;
   border: 1px solid #E4E7EA;
   border-radius: 6px;
@@ -51,24 +15,18 @@
   color: #132A3A;
   font-size: 0.88rem;
   outline: none;
+  margin-bottom: 1.5rem;
   transition: border-color 0.2s ease;
 }
 
-.filter-group input:focus,
-.filter-group select:focus {
+.category-filter-select:focus {
   border-color: #2b7fff;
 }
 
-/* Empty state */
-.empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 3rem 1rem;
-  color: #9AA5AB;
-  font-size: 0.9rem;
+.find-loading {
   text-align: center;
+  color: #5C6B73;
+  padding: 2rem 0;
 }
 
 /* Providers grid */
@@ -121,10 +79,20 @@
   color: #132A3A;
 }
 
-.provider-result-category {
-  font-size: 0.8rem;
-  color: #2b7fff;
+.provider-category-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0.2rem 0 0.3rem;
+}
+
+.category-tag {
+  font-size: 0.72rem;
   font-weight: 600;
+  color: #2b7fff;
+  background-color: rgba(43, 127, 255, 0.08);
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
 }
 
 .provider-result-area {
@@ -149,7 +117,7 @@
   display: flex;
   align-items: center;
   gap: 0.25rem;
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   font-weight: 600;
   color: #132A3A;
 }
@@ -176,10 +144,6 @@
 }
 
 @media (max-width: 480px) {
-  .filters-bar {
-    flex-direction: column;
-  }
-
   .provider-result-card {
     flex-direction: column;
   }
