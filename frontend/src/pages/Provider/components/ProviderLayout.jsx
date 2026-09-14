@@ -49,16 +49,7 @@ const ProviderLayout = () => {
       <main className="provider-content">
         <Outlet />
       </main>
-       <footer className="provider-footer">
-          <span className="footer-copyright">
-            © {new Date().getFullYear()} Ustaad. All rights reserved.
-          </span>
-          <div className="footer-links">
-            <a href="/support">Help</a>
-            <a href="/terms">Terms</a>
-            <a href="/privacy">Privacy Policy</a>
-          </div>
-        </footer>
+       
     </div>
   );
 };
