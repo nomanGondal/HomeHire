@@ -18,6 +18,11 @@ const faqs = [
       "Providers go through phone verification and identity checks before they can accept jobs, and build further trust through completed jobs and customer reviews.",
   },
   {
+    question: "What if the provider doesn't show up?",
+    answer:
+      "If a provider fails to show up, you can report the issue through the app, and we will take action to ensure it doesn't happen again.", 
+  },
+  {
     question: "Can I request a quotation first?",
     answer:
       "Yes. You can describe your issue and request a quote before confirming a booking, so there are no surprises on price.",
