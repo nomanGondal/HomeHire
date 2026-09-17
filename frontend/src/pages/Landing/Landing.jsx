@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { ShieldCheck, CircleCheck, MessageCircle, Clock } from "lucide-react"
 import Navbar from '../../components/common/Navbar'
 import Services from '../Landing/components/Services'
-import heroImg from '../../assets/hero.jpeg'
+import heroImg from '../../assets/Hero.jpg'
 import HowItWork from '../Landing/components/HowItWork'
 import WhyHomehire from '../Landing/components/WhyHomehire'
 import ProviderCTA from './components/ProviderCTA'
