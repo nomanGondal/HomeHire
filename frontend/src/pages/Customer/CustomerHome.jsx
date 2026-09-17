@@ -89,7 +89,7 @@ const NEARBY_PROVIDERS = [
 ];
 
 const CustomerHome = () => {
-  const [userName] = useState("Ayesha"); 
+  const [userName] = useState("Noman"); 
   return (
     <div className="customer-home">
     
