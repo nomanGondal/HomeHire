@@ -89,16 +89,16 @@ const NEARBY_PROVIDERS = [
 ];
 
 const CustomerHome = () => {
-  const [userName] = useState("Noman"); 
+  const [userName] = useState("Noman");
   return (
     <div className="customer-home">
-    
+
       <div className="home-header">
         <h1 className="home-heading">Welcome, {userName}</h1>
         <p className="home-subtext">What do you need help with today?</p>
       </div>
 
-  
+
       <div className="home-stats-grid">
         {STATS.map(({ label, value, icon: Icon }) => (
           <div className="stat-card" key={label}>
@@ -113,7 +113,7 @@ const CustomerHome = () => {
         ))}
       </div>
 
-   
+
       <section className="home-section">
         <h2 className="section-title">Popular Services</h2>
         <div className="category-grid">
@@ -128,7 +128,7 @@ const CustomerHome = () => {
         </div>
       </section>
 
-     
+
       <section className="home-section">
         <div className="section-header-row">
           <h2 className="section-title">Active Bookings</h2>
@@ -157,7 +157,7 @@ const CustomerHome = () => {
         )}
       </section>
 
-      
+
       <section className="home-section">
         <div className="section-header-row">
           <h2 className="section-title">My Recent Requests</h2>
@@ -181,7 +181,7 @@ const CustomerHome = () => {
         </div>
       </section>
 
-    
+
       <section className="home-section">
         <div className="section-header-row">
           <h2 className="section-title">Nearby Providers</h2>

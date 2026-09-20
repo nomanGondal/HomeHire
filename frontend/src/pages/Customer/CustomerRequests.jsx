@@ -11,7 +11,7 @@ const REQUESTS = [
     description: "AC not cooling properly, might need gas refill.",
     area: "Model Town, Lahore",
     postedAgo: "2 hours ago",
-    status: "open", 
+    status: "open",
     quotesReceived: 3,
   },
   {

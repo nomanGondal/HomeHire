@@ -8,7 +8,7 @@ const CustomerProfile = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
- 
+
   const [profileData, setProfileData] = useState({ name: "", email: "", phone: "" });
   const [profileSaving, setProfileSaving] = useState(false);
   const [profileSuccess, setProfileSuccess] = useState("");

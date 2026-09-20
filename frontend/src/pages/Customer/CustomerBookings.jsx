@@ -11,7 +11,7 @@ const BOOKINGS = [
     date: "Today, 3:00 PM",
     area: "Gulberg, Lahore",
     price: 1500,
-    status: "confirmed", 
+    status: "confirmed",
   },
   {
     id: 2,
@@ -66,7 +66,7 @@ const CustomerBookings = () => {
         <p className="bookings-subtext">Track your upcoming and past service bookings</p>
       </div>
 
-    
+
       <div className="bookings-tabs">
         {TABS.map((tab) => (
           <button
