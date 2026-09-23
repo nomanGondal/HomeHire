@@ -50,7 +50,15 @@ const serviceRequestSchema = new mongoose.Schema(
       enum: ["open", "quoted", "booked", "cancelled", "expired"],
       default: "open",
     },
+
+
+    targetProvider: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
   },
+
+
   { timestamps: true }
 );
 
