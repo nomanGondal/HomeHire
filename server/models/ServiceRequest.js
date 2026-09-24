@@ -55,6 +55,7 @@ const serviceRequestSchema = new mongoose.Schema(
     targetProvider: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
+      default: null
     },
   },
 
