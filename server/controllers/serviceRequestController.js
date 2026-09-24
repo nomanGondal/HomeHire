@@ -4,10 +4,29 @@ const ServiceRequest = require("../models/ServiceRequest");
 // @route  POST /api/requests
 const createServiceRequest = async (req, res) => {
   try {
-    const { category, description, urgency, preferredDateTime, address, location } = req.body;
-console.log("Request body:", req.body); // Log the request body for debugging
+    const {
+      category,
+      description,
+      urgency,
+      preferredDateTime,
+      address,
+      location,
+      targetProvider, // optional — direct request to a specific provider
+    } = req.body;
+
     if (!category || !description || !address?.fullAddress || !address?.city) {
       return res.status(400).json({ message: "Category, description, and address are required" });
+    }
+     const categoryExists = await ServiceCategory.findById(category);
+    if (!categoryExists) {
+      return res.status(400).json({ message: "Invalid category" });
+    }
+
+    if (targetProvider) {
+      const providerExists = await ProviderProfile.findOne({ user: targetProvider });
+      if (!providerExists) {
+        return res.status(400).json({ message: "Invalid target provider" });
+      }
     }
 
     const request = await ServiceRequest.create({
@@ -17,7 +36,8 @@ console.log("Request body:", req.body); // Log the request body for debugging
       urgency,
       preferredDateTime,
       address,
-      location, // optional for now — can be added once you wire up maps
+      location,
+      targetProvider: targetProvider || null, // stays null for open/general requests
     });
 
     res.status(201).json({ message: "Service request created successfully", request });
