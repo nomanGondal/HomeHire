@@ -19,8 +19,8 @@ const serviceRequestSchema = new mongoose.Schema(
     },
     urgency: {
       type: String,
-      enum: ["normal", "urgent"],
-      default: "normal",
+      enum: ["low", "medium", "high"],
+      default: "low",
     },
     preferredDateTime: {
       type: Date,

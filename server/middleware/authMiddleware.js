@@ -1,4 +1,3 @@
-// JWT/auth protection logic will go here (empty for now)const jwt = require("jsonwebtoken");
 const jwt = require("jsonwebtoken");
 const protect = (req, res, next) => {
     try {

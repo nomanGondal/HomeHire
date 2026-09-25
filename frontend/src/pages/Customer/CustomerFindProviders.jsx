@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { Star, MapPin, BadgeCheck } from "lucide-react";
 import "././css/FindProvider.css";
-
+import RequestServiceModal from "./RequestServiceModal";
 const CustomerFindProviders = () => {
   const [categories, setCategories] = useState([]);
   const [providers, setProviders] = useState([]);
   const [categoryId, setCategoryId] = useState("");
   const [loading, setLoading] = useState(true);
+  const [showRequestModal, setShowRequestModal] = useState(false);
+  const [selectedProvider, setSelectedProvider] = useState(null);
 
   const fetchProviders = async (categoryId = "") => {
     setLoading(true);
@@ -60,6 +62,12 @@ const CustomerFindProviders = () => {
     const value = e.target.value;
     setCategoryId(value);
     fetchProviders(value);
+  };
+
+  const handleOpenRequest = (provider) => {
+    setSelectedProvider(provider);
+    console.log("Selected provider for request:", provider);
+    setShowRequestModal(true);
   };
 
   return (
@@ -120,11 +128,31 @@ const CustomerFindProviders = () => {
                 </div>
 
                 <button className="view-profile-btn">View Profile</button>
+                <button
+                  className="view-profile-btn"
+                  onClick={() => handleOpenRequest(provider)}
+                >
+                  Send Request
+                </button>
+
               </div>
             </div>
           ))}
         </div>
       )}
+     
+     {showRequestModal && (
+  <RequestServiceModal
+    provider={selectedProvider}
+    onClose={() => setShowRequestModal(false)}
+    onSuccess={() => {
+      setShowRequestModal(false);
+      alert("Request sent successfully!");
+    }}
+  />
+)}
+
+
     </div>
   );
 };

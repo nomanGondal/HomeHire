@@ -14,7 +14,7 @@ verificationStatus: "pending" };
     if (city) {
       filter["serviceAreas.city"] = city; // matches providers serving that city
     }
-   console.log("Filter for available providers:", filter);
+   
     const providers = await ProviderProfile.find(filter)
       .populate("user", "name")
       .populate("services.category", "name slug")

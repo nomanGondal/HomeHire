@@ -1,4 +1,5 @@
 const ProviderProfile = require("../models/ProviderProfile");
+const ServiceCategory = require("../models/ServiceCategory");
 const ServiceRequest = require("../models/ServiceRequest");
 
 // @route  POST /api/requests
@@ -9,11 +10,19 @@ const createServiceRequest = async (req, res) => {
       description,
       urgency,
       preferredDateTime,
-      address,
       location,
       targetProvider, // optional — direct request to a specific provider
     } = req.body;
 
+    console.log("Received service request data:", req.body);
+    let address;
+    try {
+      address = typeof req.body.address === "string"
+        ? JSON.parse(req.body.address)
+        : req.body.address;
+    } catch (parseErr) {
+      return res.status(400).json({ message: "Invalid address format" });
+    }
     if (!category || !description || !address?.fullAddress || !address?.city) {
       return res.status(400).json({ message: "Category, description, and address are required" });
     }
@@ -33,7 +42,8 @@ const createServiceRequest = async (req, res) => {
       customer: req.user.id,
       category,
       description,
-      urgency,
+      urgency: typeof urgency === "string" ? urgency.trim().toLowerCase() : urgency,
+      photos: req.files?.photos?.map((file) => file.path) || [],
       preferredDateTime,
       address,
       location,
