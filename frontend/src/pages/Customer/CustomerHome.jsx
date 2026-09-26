@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Briefcase,
   CheckCircle,
@@ -14,7 +14,7 @@ import {
   Clock,
 } from "lucide-react";
 import "././css/Home.css";
-
+import RequestServiceModal from "./RequestServiceModal";
 
 
 const STATS = [
@@ -22,14 +22,6 @@ const STATS = [
   { label: "Completed Jobs", value: 14, icon: CheckCircle },
   { label: "Saved Providers", value: 5, icon: Heart },
   { label: "Total Spent", value: "PKR 38,600", icon: Wallet },
-];
-
-const SERVICE_CATEGORIES = [
-  { id: 1, name: "Electrician", icon: Zap },
-  { id: 2, name: "Plumber", icon: Droplet },
-  { id: 3, name: "AC Technician", icon: Wind },
-  { id: 4, name: "Appliance Repair", icon: Wrench },
-  { id: 5, name: "Carpenter", icon: Hammer },
 ];
 
 const ACTIVE_BOOKINGS = [
@@ -90,6 +82,31 @@ const NEARBY_PROVIDERS = [
 
 const CustomerHome = () => {
   const [userName] = useState("Noman");
+
+  const [showRequestModal, setShowRequestModal] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
+
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch("http://127.0.0.1:5000/api/categories/");
+        const data = await res.json();
+        setCategories(data.categories || []);
+      } catch (err) {
+        console.error("Failed to load categories:", err);
+      }
+    };
+    fetchCategories();
+  }, []);
+
+  const handleCategoryClick = (category) => {
+    setSelectedCategory(category);
+    setShowRequestModal(true);
+  };
+
   return (
     <div className="customer-home">
 
@@ -117,12 +134,16 @@ const CustomerHome = () => {
       <section className="home-section">
         <h2 className="section-title">Popular Services</h2>
         <div className="category-grid">
-          {SERVICE_CATEGORIES.map(({ id, name, icon: Icon }) => (
-            <button className="category-card" key={id}>
+          {categories.map((category) => (
+            <button
+              className="category-card"
+              key={category._id}
+              onClick={() => handleCategoryClick(category)}
+            >
               <div className="category-icon">
-                <Icon size={22} />
+                <Zap size={22} />
               </div>
-              <span className="category-name">{name}</span>
+              <span className="category-name">{category.name}</span>
             </button>
           ))}
         </div>
@@ -205,6 +226,18 @@ const CustomerHome = () => {
           ))}
         </div>
       </section>
+
+      {showRequestModal && (
+  <RequestServiceModal
+    provider={null}
+    preSelectedCategory={selectedCategory}
+    onClose={() => setShowRequestModal(false)}
+    onSuccess={() => {
+      setShowRequestModal(false);
+      alert("Request posted successfully!");
+    }}
+  />
+)}
     </div>
   );
 };

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import "./css/Openrequest.css"
-const RequestServiceModal = ({ provider, onClose, onSuccess }) => {
+const RequestServiceModal = ({ provider, preSelectedCategory, onClose, onSuccess }) => {
     const [formData, setFormData] = useState({
-        category: "",
+        category:preSelectedCategory?._id || "",
         description: "",
         urgency: "",
         preferredDateTime: "",
@@ -38,9 +38,10 @@ const RequestServiceModal = ({ provider, onClose, onSuccess }) => {
             payload.append("description", formData.description);
             payload.append("urgency", formData.urgency);
             payload.append("preferredDateTime", formData.preferredDateTime)
+            if(provider){
             payload.append("targetProvider", provider.user._id); // auto-set from selected provider
-
-
+            }
+            
             payload.append("address", JSON.stringify({
                 fullAddress: formData.fullAddress,
                 city: formData.city,
@@ -78,10 +79,11 @@ const RequestServiceModal = ({ provider, onClose, onSuccess }) => {
     return (
         <div className="modal-overlay">
             <div className="modal-box">
-                <h2>Request {provider.businessName}</h2>
+               <h2> {provider ? `Request ${provider.businessName}` : `Post a ${preSelectedCategory?.name} Request`}</h2>
                 {error && <p className="field-error">{error}</p>}
                 <form onSubmit={handleSubmit}>
                     {/* form fields agle block mein aayenge */}
+                      {provider &&(
                     <div className="form-group">
                         <label>Which service do you need?</label>
                         <select name="category" value={formData.category} onChange={handleChange}>
@@ -92,7 +94,7 @@ const RequestServiceModal = ({ provider, onClose, onSuccess }) => {
                                 </option>
                             ))}
                         </select>
-                    </div>
+                    </div>)}
 
                     <div className="form-group">
                         <label>Describe your problem</label>

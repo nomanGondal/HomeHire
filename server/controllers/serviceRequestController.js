@@ -104,7 +104,7 @@ const getOpenRequests = async (req, res) => {
     })
     .populate("category", "name slug")
     .populate("customer", "name email")
-    .select("-createdAt -updatedAt -__v")
+    .select("  -__v")
     .sort({ createdAt: -1 }); // newest first
  
     res.status(200).json({ count: requests.length, requests });

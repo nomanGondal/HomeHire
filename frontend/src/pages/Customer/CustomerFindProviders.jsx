@@ -144,6 +144,7 @@ const CustomerFindProviders = () => {
      {showRequestModal && (
   <RequestServiceModal
     provider={selectedProvider}
+    preSelectedCategory={null}
     onClose={() => setShowRequestModal(false)}
     onSuccess={() => {
       setShowRequestModal(false);

@@ -77,9 +77,23 @@ const StarRating = ({ rating }) => (
   </div>
 );
 
+const timeAgo = (dateString) => {
+  const diffMs = Date.now() - new Date(dateString).getTime();
+  const minutes = Math.floor(diffMs / 60000);
+  if (minutes < 1) return "Just now";
+  if (minutes < 60) return `${minutes} min ago`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours} hr ago`;
+  const days = Math.floor(hours / 24);
+  return `${days} day${days > 1 ? "s" : ""} ago`;
+};
+
 const ProviderHome = () => {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [jobRequests, setJobRequests] = useState([]);
+  const [requestsLoading, setRequestsLoading] = useState(true);
+
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -87,7 +101,7 @@ const ProviderHome = () => {
 
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/provider/profile/me`,
+          "http://127.0.0.1:5000/api/provider/profile/me",
           {
             method: "GET",
             headers: {
@@ -105,7 +119,31 @@ const ProviderHome = () => {
       }
     };
 
+    const fetchOpenRequests = async () => {
+      const token = localStorage.getItem("token");
+
+      try {
+        const response = await fetch(
+          "http://127.0.0.1:5000/api/requests/open",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const data = await response.json();
+        setJobRequests(data.requests || []);
+      } catch (err) {
+        console.error("Failed to load job requests:", err);
+      } finally {
+        setRequestsLoading(false);
+      }
+    };
+
     fetchProfile();
+    fetchOpenRequests();
   }, []);
 
   if (loading) {
@@ -142,29 +180,38 @@ const ProviderHome = () => {
       </div>
 
       {/* Incoming job requests */}
-      <section className="home-section">
+       <section className="home-section">
         <h2 className="section-title">Incoming Job Requests</h2>
-        <div className="job-requests-list">
-          {JOB_REQUESTS.map((job) => (
-            <div className="job-card" key={job.id}>
-              <div className="job-card-top">
-                <span className="job-category">{job.category}</span>
-                <span className="job-time">
-                  <Clock size={14} /> {job.postedAgo}
-                </span>
-              </div>
-              <p className="job-description">{job.description}</p>
-              <div className="job-card-bottom">
-                <span className="job-area">
-                  <MapPin size={14} /> {job.area}
-                </span>
-                <button className="job-quote-btn">Send Quote</button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
 
+        {requestsLoading ? (
+          <p className="empty-text">Loading requests...</p>
+        ) : jobRequests.length === 0 ? (
+          <p className="empty-text">No new job requests right now.</p>
+        ) : (
+          <div className="job-requests-list">
+            {jobRequests.map((job) => (
+              <div className="job-card" key={job._id}>
+                <div className="job-card-top">
+                  <span className="job-category">{job.category?.name}</span>
+                  <span className="job-time">
+                    <Clock size={14} /> {timeAgo(job.createdAt)}
+                  </span>
+                </div>
+
+                <p className="job-description">{job.description}</p>
+
+                <div className="job-card-bottom">
+                  <span className="job-area">
+                    <MapPin size={14} />
+                    {job.address?.area ? `${job.address.area}, ` : ""}{job.address?.city}
+                  </span>
+                  <button className="job-quote-btn">Send Quote</button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
       {/* Recent reviews */}
       <section className="home-section">
         <h2 className="section-title">Recent Reviews</h2>
