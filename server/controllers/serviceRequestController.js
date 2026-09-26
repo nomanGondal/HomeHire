@@ -78,21 +78,34 @@ const getOpenRequests = async (req, res) => {
     // Get the logged-in provider's own profile to know their categories
     const providerProfile = await ProviderProfile.findOne({ user: req.user.id });
 
+    console.log("Provider profile:", providerProfile);
+
     if (!providerProfile) {
       return res.status(404).json({ message: "Provider profile not found. Please complete your profile first." });
     }
 
-    if (!providerProfile.categories || providerProfile.categories.length === 0) {
+    if (!providerProfile.services || providerProfile.services.length === 0) {
       return res.status(400).json({ message: "No categories set on your profile yet" });
     }
 
     const requests = await ServiceRequest.find({
       status: "open",
-      category: { $in: providerProfile.categories }, // matches any of provider's categories
+      $or:[
+        {
+          targetprovider:null,
+           category: { $in: providerProfile.services
+                            .filter((s) => s.isActive) // only consider active services
+                            .map((s) => s.category) } // matches any of provider's categories
+        } ,
+        {
+          targetProvider: req.user.id // direct requests to this provider
+        } 
+    ]
     })
-      .populate("category", "name slug")
-      .populate("customer", "name") // just name, not sensitive info
-      .sort({ createdAt: -1 });
+    .populate("category", "name slug")
+    .populate("customer", "name email")
+    .select("-createdAt -updatedAt -__v")
+    .sort({ createdAt: -1 }); // newest first
  
     res.status(200).json({ count: requests.length, requests });
   } catch (error) {
