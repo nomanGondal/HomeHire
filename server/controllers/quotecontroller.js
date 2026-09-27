@@ -1,7 +1,8 @@
 const Booking = require("../models/Booking");
 const Quote = require("../models/Quote");
 const ServiceRequest = require("../models/ServiceRequest");
-
+const providerprofile=require("../models/ProviderProfile");
+const ProviderProfile = require("../models/ProviderProfile");
 // @route  POST /api/quotes
 const createQuote = async (req, res) => {
   try {
@@ -16,9 +17,15 @@ const createQuote = async (req, res) => {
       return res.status(404).json({ message: "Service request not found" });
     }
 
-    if (request.status !== "open" && request.status !== "quoted") {
-  return res.status(400).json({ message: "This job is no longer open for quotes" });
-}
+    // Job must still be open/quoted (not already booked/cancelled)
+    if (!["open", "quoted"].includes(request.status)) {
+      return res.status(400).json({ message: "This job is no longer accepting quotes" });
+    }
+
+    // If request is targeted to a specific provider, only they can quote
+    if (request.targetProvider && request.targetProvider.toString() !== req.user.id) {
+      return res.status(403).json({ message: "This request is not addressed to you" });
+    }
 
     const quote = await Quote.create({
       serviceRequest,
@@ -28,19 +35,24 @@ const createQuote = async (req, res) => {
       estimatedDuration,
     });
 
-    // Mark request as "quoted" so customer knows bids are coming in
-    request.status = "quoted";
-    await request.save();
+    // Mark request as "quoted" (only meaningfully changes on the first quote)
+    if (request.status === "open") {
+      request.status = "quoted";
+      await request.save();
+    }
+
+    // TODO: trigger notification to customer — new quote received
 
     res.status(201).json({ message: "Quote submitted successfully", quote });
   } catch (error) {
     if (error.code === 11000) {
-      // MongoDB duplicate key error — from our unique index
       return res.status(400).json({ message: "You have already submitted a quote for this job" });
     }
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
+
 
 
 // @route  GET /api/requests/:id/quotes
@@ -59,9 +71,8 @@ const getQuotesForRequest = async (req, res) => {
     }
 
     const quotes = await Quote.find({ serviceRequest: id, status: { $ne: "withdrawn" } })
-      .populate("provider", "name")
+      .populate("provider",["name","_id"])
       .sort({ price: 1 }); // cheapest first — customer can re-sort on frontend if needed
-
     res.status(200).json({ count: quotes.length, quotes });
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });

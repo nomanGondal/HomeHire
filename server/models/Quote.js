@@ -15,6 +15,7 @@ const quoteSchema = new mongoose.Schema(
     price: {
       type: Number,
       required: true,
+      min: 0,
     },
     message: {
       type: String,
@@ -32,7 +33,7 @@ const quoteSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// One quote per provider per job — prevents duplicate bids
+// One provider can only quote once per request — prevents duplicate bids
 quoteSchema.index({ serviceRequest: 1, provider: 1 }, { unique: true });
 quoteSchema.index({ status: 1 });
 

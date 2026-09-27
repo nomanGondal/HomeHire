@@ -1,60 +1,73 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Clock, MapPin, FileText, X } from "lucide-react";
-import "././css/MyRequests.css";
-
-
-
-const REQUESTS = [
-  {
-    id: 1,
-    category: "AC Repair",
-    description: "AC not cooling properly, might need gas refill.",
-    area: "Model Town, Lahore",
-    postedAgo: "2 hours ago",
-    status: "open",
-    quotesReceived: 3,
-  },
-  {
-    id: 2,
-    category: "Plumbing",
-    description: "Kitchen sink leaking from the pipe joint.",
-    area: "Johar Town, Lahore",
-    postedAgo: "1 day ago",
-    status: "open",
-    quotesReceived: 0,
-  },
-  {
-    id: 3,
-    category: "Electrician",
-    description: "Ceiling fan not working, needs inspection.",
-    area: "Gulberg, Lahore",
-    postedAgo: "3 days ago",
-    status: "booked",
-    quotesReceived: 4,
-  },
-  {
-    id: 4,
-    category: "Carpenter",
-    description: "Wooden door hinge repair needed.",
-    area: "DHA Phase 5, Lahore",
-    postedAgo: "1 week ago",
-    status: "closed",
-    quotesReceived: 2,
-  },
-];
-
+import "././css/MyRequests.css"
+import QuotesModal from "./QuotesModel";
 const statusConfig = {
   open: { label: "Open", className: "open" },
   quoted: { label: "Quotes Received", className: "quoted" },
   booked: { label: "Booked", className: "booked" },
   closed: { label: "Closed", className: "closed" },
+  cancelled: { label: "Cancelled", className: "cancelled" },
 };
 
 const CustomerRequests = () => {
-  const [requests, setRequests] = useState(REQUESTS);
+  const [requests, setRequests] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [showQuotesModal, setShowQuotesModal] = useState(false);
+  const [selectedQuotes, setSelectedQuotes] = useState([]);
+  const [quotesLoading, setQuotesLoading] = useState(false);
 
-  const handleCancel = (id) => {
-    setRequests(requests.filter((r) => r.id !== id));
+  useEffect(() => {
+    const fetchMyRequests = async () => {
+      const token = localStorage.getItem("token");
+
+      try {
+        const response = await fetch(
+          "http://127.0.0.1:5000/api/requests/my",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const data = await response.json();
+        setRequests(data.requests || []);
+      } catch (err) {
+        console.error("Failed to load requests:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMyRequests();
+  }, []);
+
+  const handleViewQuotes = async (requestId) => {
+    setShowQuotesModal(true);
+    setQuotesLoading(true);
+
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:5000/api/requests/${requestId}/quotes`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const data = await response.json();
+      setSelectedQuotes(data.quotes || []);
+    } catch (err) {
+      console.error("Failed to load quotes:", err);
+    } finally {
+      setQuotesLoading(false);
+    }
   };
 
   return (
@@ -64,7 +77,9 @@ const CustomerRequests = () => {
         <p className="requests-subtext">Track the service requests you've posted</p>
       </div>
 
-      {requests.length === 0 ? (
+      {loading ? (
+        <p className="requests-empty">Loading your requests...</p>
+      ) : requests.length === 0 ? (
         <div className="requests-empty">
           <FileText size={32} color="#9AA5AB" />
           <p>You haven't posted any service requests yet.</p>
@@ -72,12 +87,12 @@ const CustomerRequests = () => {
       ) : (
         <div className="requests-list">
           {requests.map((request) => {
-            const status = statusConfig[request.status];
+            const status = statusConfig[request.status] || statusConfig.open;
 
             return (
-              <div className="request-item-card" key={request.id}>
+              <div className="request-item-card" key={request._id}>
                 <div className="request-item-top">
-                  <span className="request-item-category">{request.category}</span>
+                  <span className="request-item-category">{request.category?.name}</span>
                   <span className={`request-status-badge ${status.className}`}>
                     {status.label}
                   </span>
@@ -86,36 +101,34 @@ const CustomerRequests = () => {
                 <p className="request-item-description">{request.description}</p>
 
                 <div className="request-item-meta">
-                  <span><MapPin size={13} /> {request.area}</span>
-                  <span><Clock size={13} /> {request.postedAgo}</span>
-                </div>
-
-                <div className="request-item-bottom">
-                  <span className="request-quotes-count">
-                    {request.quotesReceived > 0
-                      ? `${request.quotesReceived} quotes received`
-                      : "Waiting for quotes"}
+                  <span>
+                    <MapPin size={13} />
+                    {request.address?.area ? `${request.address.area}, ` : ""}
+                    {request.address?.city}
                   </span>
-
-                  <div className="request-item-actions">
-                    {request.quotesReceived > 0 && (
-                      <button className="request-action-btn primary">View Quotes</button>
-                    )}
-                    {(request.status === "open" || request.status === "quoted") && (
-                      <button
-                        className="request-action-btn danger"
-                        onClick={() => handleCancel(request.id)}
-                      >
-                        <X size={14} /> Cancel
-                      </button>
-                    )}
-                  </div>
+                  <span><Clock size={13} /> {new Date(request.createdAt).toLocaleDateString()}</span>
                 </div>
+                {request.status === "quoted" && (
+                  <button
+                    className="request-action-btn primary"
+                    onClick={() => handleViewQuotes(request._id)}
+                  >
+                    View Quotes
+                  </button>
+                )}
               </div>
             );
           })}
         </div>
       )}
+
+{showQuotesModal && (
+  <QuotesModal
+    quotes={selectedQuotes}
+    loading={quotesLoading}
+    onClose={() => setShowQuotesModal(false)}
+  />
+)}
     </div>
   );
 };

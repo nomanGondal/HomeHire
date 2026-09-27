@@ -89,10 +89,10 @@ const getOpenRequests = async (req, res) => {
     }
 
     const requests = await ServiceRequest.find({
-      status: "open",
+      status: ["open"], 
       $or:[
         {
-          targetprovider:null,
+          targetProvider:null,
            category: { $in: providerProfile.services
                             .filter((s) => s.isActive) // only consider active services
                             .map((s) => s.category) } // matches any of provider's categories
@@ -104,7 +104,7 @@ const getOpenRequests = async (req, res) => {
     })
     .populate("category", "name slug")
     .populate("customer", "name email")
-    .select("  -__v")
+    .select("-__v")
     .sort({ createdAt: -1 }); // newest first
  
     res.status(200).json({ count: requests.length, requests });
