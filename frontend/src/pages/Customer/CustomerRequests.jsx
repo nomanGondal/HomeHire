@@ -45,8 +45,8 @@ const CustomerRequests = () => {
     fetchMyRequests();
   }, []);
 const handlecancle =async (request)=>{
-      const token =localStorage.getItem(token)
-  const response= await fetch(`http://127.0.0.1:5000/api/requests/${request.id}/cancel`,
+      const token =localStorage.getItem("token")
+  const response= await fetch(`http://127.0.0.1:5000/api/requests/${request._id}/cancel`,
     {
       method :"PUT",
       headers: {
@@ -56,7 +56,8 @@ const handlecancle =async (request)=>{
 
     }
   )
-  console.log(response)
+     const data = await response.json();
+     console.log("server respones :",data)
 };
   
   return (
@@ -109,7 +110,12 @@ const handlecancle =async (request)=>{
                     View Quotes
                   </button>
                 )}
-                <button onClick={handlecancle(request)}>cancel request</button>
+                <button
+                  className="request-action-btn danger"
+                  onClick={() => handlecancle(request)}
+                >
+                  cancel request
+                </button>
               </div>
             );
           })}

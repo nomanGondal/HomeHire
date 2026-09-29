@@ -158,11 +158,11 @@
   background-color: #1a5bc2;
   color: #ffffff;
 }
-
 .request-action-btn.danger:hover {
   border-color: #e53e3e;
   color: #e53e3e;
 }
+
 
 @media (max-width: 480px) {
   .request-item-bottom {

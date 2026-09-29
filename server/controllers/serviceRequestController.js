@@ -118,7 +118,7 @@ const getOpenRequests = async (req, res) => {
 const cancelRequest = async (req, res) => {
   try {
     const { id } = req.params;
-
+    console.log("the received ID =",id)
     const request = await ServiceRequest.findById(id);
     if (!request) {
       return res.status(404).json({ message: "Service request not found" });
