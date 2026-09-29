@@ -190,6 +190,7 @@ const ProviderHome = () => {
                     <button className="job-quote-btn quoted" disabled>
                       Quoted
                     </button>
+                    
                   ) : (
                     <button
                       className="job-quote-btn"

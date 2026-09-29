@@ -45,6 +45,14 @@ const CustomerRequests = () => {
     fetchMyRequests();
   }, []);
 const handleDelete = async (request) => {
+     const confirmed = window.confirm(
+    "Are you sure you want to delete this request?"
+  );
+
+  if (!confirmed) {
+    return;
+  }
+
   try {
     const token = localStorage.getItem("token");
 
@@ -131,7 +139,7 @@ const handleDelete = async (request) => {
                   className="request-action-btn danger"
                   onClick={() => handleDelete(request)}
                 >
-                  cancel request
+                  Delete request
                 </button>
               </div>
             );
