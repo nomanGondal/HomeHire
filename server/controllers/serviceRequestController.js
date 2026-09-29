@@ -1,4 +1,5 @@
 const ProviderProfile = require("../models/ProviderProfile");
+const Quote = require("../models/Quote");
 const ServiceCategory = require("../models/ServiceCategory");
 const ServiceRequest = require("../models/ServiceRequest");
 
@@ -113,6 +114,52 @@ const getOpenRequests = async (req, res) => {
   }
 };
 
-module.exports = { createServiceRequest, getMyRequests, getOpenRequests };
+// @route  PUT /api/requests/:id/cancel
+const cancelRequest = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const request = await ServiceRequest.findById(id);
+    if (!request) {
+      return res.status(404).json({ message: "Service request not found" });
+    }
+
+    // Only the owner can cancel their own request
+    if (request.customer.toString() !== req.user.id) {
+      return res.status(403).json({ message: "You are not allowed to cancel this request" });
+    }
+
+    // Already booked jobs shouldn't be cancelled this way — use booking cancellation instead
+    if (request.status === "booked") {
+      return res.status(400).json({ message: "This job is already booked. Cancel the booking instead." });
+    }
+
+    if (request.status === "cancelled") {
+      return res.status(400).json({ message: "This request is already cancelled" });
+    }
+
+    request.status = "cancelled";
+    await request.save();
+
+    // Withdraw any pending quotes on this request — they're no longer valid
+  
+      
+      await Quote.updateMany(
+        { serviceRequest: id, status: "pending" },
+        { status: "withdrawn" }
+      );
+    
+
+    // TODO: trigger notification to providers who quoted — request cancelled
+
+    res.status(200).json({ message: "Service request cancelled successfully", request });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
+
+
+module.exports = { createServiceRequest, getMyRequests, getOpenRequests,cancelRequest };
 
 

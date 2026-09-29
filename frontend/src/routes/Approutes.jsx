@@ -21,6 +21,9 @@ import CustomerBookings from "../pages/Customer/CustomerBookings";
 import CustomerMessages from "../pages/Customer/CustomerMessages";
 import CustomerRequests from "../pages/Customer/CustomerRequests";
 import CustomerProfile from "../pages/Customer/CustomerProfile";
+import CustomerQuotes from "../pages/Customer/CustomerQuotes"
+import CustomerProviderProfile from "../pages/Customer/CustomerProviderProfile";
+
 import PageNotFound from "../pages/PageNotFound";
 const Approutes = () => {
    return (
@@ -54,6 +57,8 @@ const Approutes = () => {
                <Route path="messages" element={<CustomerMessages />} />
                <Route path="requests" element={<CustomerRequests />} />
                <Route path="profile" element={<CustomerProfile />} />
+               <Route path="requests/:requestId/quotes" element={<CustomerQuotes />} />
+               <Route path="provider/:providerId" element={<CustomerProviderProfile />} />
             </Route>
             <Route path="*" element={<PageNotFound />} />
          </Routes>

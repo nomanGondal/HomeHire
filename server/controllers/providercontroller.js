@@ -8,7 +8,6 @@ const createProviderProfile = async (req, res) => {
 
     const { businessName, bio, services, serviceArea, travelDistance, } = req.body;
   
-    // services aata hai JSON string ke roop mein (FormData ki wajah se) — parse karna zaroori hai
     let parsedServices;
 
 try {

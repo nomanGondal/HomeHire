@@ -1,0 +1,210 @@
+.profile-view-loading {
+  text-align: center;
+  color: #5C6B73;
+  padding: 3rem 0;
+}
+
+.back-link-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: transparent;
+  border: none;
+  color: #5C6B73;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 1.25rem;
+}
+
+.back-link-btn:hover {
+  color: #2b7fff;
+}
+
+/* Header */
+.provider-view-header {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+.provider-view-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: rgba(43, 127, 255, 0.1);
+  color: #2b7fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.provider-view-name-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.provider-view-name {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #132A3A;
+}
+
+.provider-view-status-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  color: #5C6B73;
+  margin: 0.3rem 0;
+}
+
+.online-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.online-dot.online {
+  background-color: #2f855a;
+}
+
+.online-dot.offline {
+  background-color: #9AA5AB;
+}
+
+.provider-view-area {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.82rem;
+  color: #5C6B73;
+}
+
+/* Stats */
+.provider-view-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.view-stat-card {
+  background-color: #ffffff;
+  border: 1px solid #E4E7EA;
+  border-radius: 10px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  text-align: center;
+}
+
+.view-stat-value {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #132A3A;
+}
+
+.view-stat-label {
+  font-size: 0.78rem;
+  color: #5C6B73;
+}
+
+/* Sections */
+.provider-view-section {
+  margin-bottom: 1.75rem;
+}
+
+.view-section-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #132A3A;
+  margin-bottom: 0.9rem;
+}
+
+.provider-view-bio {
+  font-size: 0.92rem;
+  color: #3D4A52;
+  line-height: 1.5;
+}
+
+/* Services */
+.view-services-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.view-service-card {
+  background-color: #ffffff;
+  border: 1px solid #E4E7EA;
+  border-radius: 10px;
+  padding: 1rem 1.1rem;
+}
+
+.view-service-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.view-service-category {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #132A3A;
+}
+
+.view-service-price {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #2b7fff;
+}
+
+.view-service-description {
+  font-size: 0.88rem;
+  color: #3D4A52;
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+.view-service-experience {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+  color: #5C6B73;
+}
+
+.view-service-paused {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #b7791f;
+  background-color: rgba(183, 121, 31, 0.1);
+  padding: 0.15rem 0.55rem;
+  border-radius: 4px;
+}
+.view-star-row {
+  display: flex;
+  gap: 0.15rem;
+}
+@media (max-width: 480px) {
+  .provider-view-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}

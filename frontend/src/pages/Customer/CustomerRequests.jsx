@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Clock, MapPin, FileText, X } from "lucide-react";
 import "././css/MyRequests.css"
-import QuotesModal from "./QuotesModel";
+import { useNavigate } from "react-router-dom";
 const statusConfig = {
   open: { label: "Open", className: "open" },
   quoted: { label: "Quotes Received", className: "quoted" },
@@ -13,10 +13,9 @@ const statusConfig = {
 const CustomerRequests = () => {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [showQuotesModal, setShowQuotesModal] = useState(false);
-  const [selectedQuotes, setSelectedQuotes] = useState([]);
-  const [quotesLoading, setQuotesLoading] = useState(false);
-
+  const navigate = useNavigate();
+  
+  
   useEffect(() => {
     const fetchMyRequests = async () => {
       const token = localStorage.getItem("token");
@@ -33,7 +32,9 @@ const CustomerRequests = () => {
           }
         );
         const data = await response.json();
+        console.log("the state data is ",data)
         setRequests(data.requests || []);
+
       } catch (err) {
         console.error("Failed to load requests:", err);
       } finally {
@@ -43,33 +44,21 @@ const CustomerRequests = () => {
 
     fetchMyRequests();
   }, []);
+const handlecancle =async (request)=>{
+      const token =localStorage.getItem(token)
+  const response= await fetch(`http://127.0.0.1:5000/api/requests/${request.id}/cancel`,
+    {
+      method :"PUT",
+      headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
 
-  const handleViewQuotes = async (requestId) => {
-    setShowQuotesModal(true);
-    setQuotesLoading(true);
-
-    const token = localStorage.getItem("token");
-
-    try {
-      const response = await fetch(
-        `http://127.0.0.1:5000/api/requests/${requestId}/quotes`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      const data = await response.json();
-      setSelectedQuotes(data.quotes || []);
-    } catch (err) {
-      console.error("Failed to load quotes:", err);
-    } finally {
-      setQuotesLoading(false);
     }
-  };
-
+  )
+  console.log(response)
+};
+  
   return (
     <div className="requests-page">
       <div className="requests-header">
@@ -111,24 +100,21 @@ const CustomerRequests = () => {
                 {request.status === "quoted" && (
                   <button
                     className="request-action-btn primary"
-                    onClick={() => handleViewQuotes(request._id)}
+                    onClick={() =>
+      navigate(`/customer/requests/${request._id}/quotes`, {
+        state: { request },
+      })
+    }
                   >
                     View Quotes
                   </button>
                 )}
+                <button onClick={handlecancle(request)}>cancel request</button>
               </div>
             );
           })}
         </div>
       )}
-
-{showQuotesModal && (
-  <QuotesModal
-    quotes={selectedQuotes}
-    loading={quotesLoading}
-    onClose={() => setShowQuotesModal(false)}
-  />
-)}
     </div>
   );
 };

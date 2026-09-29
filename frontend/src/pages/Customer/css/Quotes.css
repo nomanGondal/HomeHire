@@ -1,0 +1,156 @@
+.back-link-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: transparent;
+  border: none;
+  color: #5C6B73;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 1rem;
+}
+
+.back-link-btn:hover {
+  color: #2b7fff;
+}
+
+.quotes-heading {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #132A3A;
+  margin-bottom: 1rem;
+}
+
+.request-context-card {
+  background-color: #ffffff;
+  border: 1px solid #E4E7EA;
+  border-left: 3px solid #2b7fff;
+  border-radius: 10px;
+  padding: 1rem 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+.request-context-category {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #2b7fff;
+}
+
+.request-context-description {
+  font-size: 0.92rem;
+  color: #3D4A52;
+  margin: 0.4rem 0;
+  line-height: 1.4;
+}
+
+.request-context-area {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+  color: #5C6B73;
+}
+
+.quotes-empty {
+  text-align: center;
+  color: #9AA5AB;
+  padding: 2rem 0;
+  font-size: 0.9rem;
+}
+
+.quotes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.quote-card {
+  background-color: #ffffff;
+  border: 1px solid #E4E7EA;
+  border-radius: 10px;
+  padding: 1.1rem 1.25rem;
+}
+
+.quote-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.quote-provider-name {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: #132A3A;
+}
+
+.quote-price {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #2b7fff;
+}
+
+.quote-message {
+  font-size: 0.9rem;
+  color: #3D4A52;
+  margin-bottom: 0.6rem;
+  line-height: 1.4;
+}
+
+.quote-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+  color: #5C6B73;
+  margin-bottom: 0.9rem;
+}
+
+.quote-actions {
+  display: flex;
+  gap: 0.6rem;
+  border-top: 1px solid #E4E7EA;
+  padding-top: 0.9rem;
+}
+
+.quote-btn {
+  flex: 1;
+  padding: 0.55rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.quote-btn.secondary {
+  background-color: transparent;
+  border: 1px solid #E4E7EA;
+  color: #3D4A52;
+}
+
+.quote-btn.secondary:hover {
+  border-color: #2b7fff;
+  color: #2b7fff;
+}
+
+.quote-btn.primary {
+  background-color: #2b7fff;
+  border: none;
+  color: #ffffff;
+}
+
+.quote-btn.primary:hover {
+  background-color: #1a5bc2;
+}
+
+@media (max-width: 480px) {
+  .quote-actions {
+    flex-direction: column;
+  }
+}
