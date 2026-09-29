@@ -90,7 +90,7 @@ const getOpenRequests = async (req, res) => {
     }
 
     const requests = await ServiceRequest.find({
-      status: ["open"], 
+      status: ["open","quoted"], 
       $or:[
         {
           targetProvider:null,

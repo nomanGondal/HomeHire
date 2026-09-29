@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Briefcase, MessageSquare, FileText, Star, MapPin, Clock } from "lucide-react";
 import "../Provider/css/ProviderHome.css";
-
+import SendQuoteModal from "./SendQuoteModel"
 // Static placeholder data — will be replaced by real API calls later
 const STATS = [
   { label: "Active Bookings", value: 3, icon: Briefcase },
@@ -10,29 +10,6 @@ const STATS = [
   { label: "Average Rating", value: "4.8", icon: Star },
 ];
 
-const JOB_REQUESTS = [
-  {
-    id: 1,
-    category: "Electrician",
-    description: "Ceiling fan not working, needs inspection and possible rewiring.",
-    area: "Gulberg, Lahore",
-    postedAgo: "10 min ago",
-  },
-  {
-    id: 2,
-    category: "AC Technician",
-    description: "AC not cooling properly, gas refill might be needed.",
-    area: "Johar Town, Lahore",
-    postedAgo: "45 min ago",
-  },
-  {
-    id: 3,
-    category: "Plumber",
-    description: "Kitchen sink leaking from the pipe joint.",
-    area: "Model Town, Lahore",
-    postedAgo: "2 hours ago",
-  },
-];
 
 const RECENT_ACTIVITY = [
   { id: 1, text: "New message from Ahmed Raza", time: "5 min ago" },
@@ -93,7 +70,33 @@ const ProviderHome = () => {
   const [loading, setLoading] = useState(true);
   const [jobRequests, setJobRequests] = useState([]);
   const [requestsLoading, setRequestsLoading] = useState(true);
+  const [showQuoteModal, setShowQuoteModal] = useState(false);
+  const [selectedRequestId, setSelectedRequestId] = useState(null);
 
+
+
+  const fetchOpenRequests = async () => {
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await fetch(
+        "http://127.0.0.1:5000/api/requests/open",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const data = await response.json();
+      setJobRequests(data.requests || []);
+    } catch (err) {
+      console.error("Failed to load job requests:", err);
+    } finally {
+      setRequestsLoading(false);
+    }
+  };
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -119,29 +122,6 @@ const ProviderHome = () => {
       }
     };
 
-    const fetchOpenRequests = async () => {
-      const token = localStorage.getItem("token");
-
-      try {
-        const response = await fetch(
-          "http://127.0.0.1:5000/api/requests/open",
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        const data = await response.json();
-        setJobRequests(data.requests || []);
-      } catch (err) {
-        console.error("Failed to load job requests:", err);
-      } finally {
-        setRequestsLoading(false);
-      }
-    };
-
     fetchProfile();
     fetchOpenRequests();
   }, []);
@@ -149,6 +129,7 @@ const ProviderHome = () => {
   if (loading) {
     return <p className="home-loading">Loading your dashboard...</p>;
   }
+
 
   return (
     <div className="provider-home">
@@ -180,7 +161,7 @@ const ProviderHome = () => {
       </div>
 
       {/* Incoming job requests */}
-       <section className="home-section">
+      <section className="home-section">
         <h2 className="section-title">Incoming Job Requests</h2>
 
         {requestsLoading ? (
@@ -205,7 +186,21 @@ const ProviderHome = () => {
                     <MapPin size={14} />
                     {job.address?.area ? `${job.address.area}, ` : ""}{job.address?.city}
                   </span>
-                  <button className="job-quote-btn">Send Quote</button>
+                  {job.status === "open" ? (
+                    <button
+                      className="job-quote-btn"
+                      onClick={() => {
+                        setSelectedRequestId(job._id);
+                        setShowQuoteModal(true);
+                      }}
+                    >
+                      Send Quote
+                    </button>
+                  ) : (
+                    <button className="job-quote-btn quoted" disabled>
+                      Quoted
+                    </button>
+                  )}
                 </div>
               </div>
             ))}
@@ -241,6 +236,18 @@ const ProviderHome = () => {
           ))}
         </div>
       </section>
+
+      {showQuoteModal && (
+        <SendQuoteModal
+          serviceRequestId={selectedRequestId}
+          onClose={() => setShowQuoteModal(false)}
+          onSuccess={() => {
+            setShowQuoteModal(false);
+            alert("Quote sent successfully!");
+            fetchOpenRequests();
+          }}
+        />
+      )}
     </div>
   );
 };
