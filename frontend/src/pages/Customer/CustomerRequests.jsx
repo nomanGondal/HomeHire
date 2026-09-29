@@ -44,20 +44,37 @@ const CustomerRequests = () => {
 
     fetchMyRequests();
   }, []);
-const handlecancle =async (request)=>{
-      const token =localStorage.getItem("token")
-  const response= await fetch(`http://127.0.0.1:5000/api/requests/${request._id}/cancel`,
-    {
-      method :"PUT",
-      headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
+const handleDelete = async (request) => {
+  try {
+    const token = localStorage.getItem("token");
 
+    const response = await fetch(
+      `http://127.0.0.1:5000/api/requests/${request._id}/delete`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    const data = await response.json();
+
+    console.log("Server response:", data);
+
+    if (response.ok) {
+      alert(data.message || "Request deleted successfully!");
+
+      // Reload the page/component
+      window.location.reload();
+    } else {
+      alert(data.message || "Failed to delete request.");
     }
-  )
-     const data = await response.json();
-     console.log("server respones :",data)
+  } catch (error) {
+    console.error("Delete request error:", error);
+    alert("Something went wrong. Please try again.");
+  }
 };
   
   return (
@@ -112,7 +129,7 @@ const handlecancle =async (request)=>{
                 )}
                 <button
                   className="request-action-btn danger"
-                  onClick={() => handlecancle(request)}
+                  onClick={() => handleDelete(request)}
                 >
                   cancel request
                 </button>

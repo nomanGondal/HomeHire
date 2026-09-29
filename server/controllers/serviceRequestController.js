@@ -108,14 +108,29 @@ const getOpenRequests = async (req, res) => {
     .select("-__v")
     .sort({ createdAt: -1 }); // newest first
  
-    res.status(200).json({ count: requests.length, requests });
+    // Is provider ki apni quotes nikalo, un requests ke liye
+    const requestIds = requests.map((r) => r._id);
+    const myQuotes = await Quote.find({
+      serviceRequest: { $in: requestIds },
+      provider: req.user.id,
+    }).select("serviceRequest");
+
+    const quotedRequestIds = new Set(myQuotes.map((q) => q.serviceRequest.toString()));
+
+    // Har request object mein "hasQuoted" flag add kar do
+    const requestsWithFlag = requests.map((r) => ({
+      ...r.toObject(),
+      hasQuoted: quotedRequestIds.has(r._id.toString()),
+    }));
+     console.log("requestsWithFlag",quotedRequestIds)
+    res.status(200).json({ count: requestsWithFlag.length, requests: requestsWithFlag });
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
 
 // @route  PUT /api/requests/:id/cancel
-const cancelRequest = async (req, res) => {
+const deleteRequest = async (req, res) => {
   try {
     const { id } = req.params;
     console.log("the received ID =",id)
@@ -138,20 +153,26 @@ const cancelRequest = async (req, res) => {
       return res.status(400).json({ message: "This request is already cancelled" });
     }
 
-    request.status = "cancelled";
-    await request.save();
+    //request.status = "cancelled";
+    //await request.save();
 
     // Withdraw any pending quotes on this request — they're no longer valid
-  
+    /*  await request.deleteOne();
       
       await Quote.updateMany(
         { serviceRequest: id, status: "pending" },
         { status: "withdrawn" }
       );
-    
+    */
 
     // TODO: trigger notification to providers who quoted — request cancelled
+     const result = await Quote.deleteMany({
+  serviceRequest: id
+});
 
+    await ServiceRequest.findByIdAndDelete(id);
+
+console.log(`${result.deletedCount} quotes deleted`);
     res.status(200).json({ message: "Service request cancelled successfully", request });
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
@@ -160,6 +181,6 @@ const cancelRequest = async (req, res) => {
 
 
 
-module.exports = { createServiceRequest, getMyRequests, getOpenRequests,cancelRequest };
+module.exports = { createServiceRequest, getMyRequests, getOpenRequests,deleteRequest };
 
 

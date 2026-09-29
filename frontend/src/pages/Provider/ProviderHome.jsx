@@ -186,7 +186,11 @@ const ProviderHome = () => {
                     <MapPin size={14} />
                     {job.address?.area ? `${job.address.area}, ` : ""}{job.address?.city}
                   </span>
-                  {job.status === "open" ? (
+                  {job.hasQuoted ? (
+                    <button className="job-quote-btn quoted" disabled>
+                      Quoted
+                    </button>
+                  ) : (
                     <button
                       className="job-quote-btn"
                       onClick={() => {
@@ -195,10 +199,6 @@ const ProviderHome = () => {
                       }}
                     >
                       Send Quote
-                    </button>
-                  ) : (
-                    <button className="job-quote-btn quoted" disabled>
-                      Quoted
                     </button>
                   )}
                 </div>
