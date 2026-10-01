@@ -187,6 +187,13 @@ const ProviderHome = () => {
                     {job.address?.area ? `${job.address.area}, ` : ""}{job.address?.city}
                   </span>
                   {job.hasQuoted ? (
+                    job.myQuoteStatus === "accepted" ? (
+                      <button className="job-quote-btn accepted" disabled>
+                        Accepted</button>
+                    ) : job.myQuoteStatus === "rejected" ? (
+                      <button className="job-quote-btn rejected" disabled> Rejected</button>
+                    ):
+
                     <button className="job-quote-btn quoted" disabled>
                       Quoted
                     </button>

@@ -113,16 +113,30 @@ const getOpenRequests = async (req, res) => {
     const myQuotes = await Quote.find({
       serviceRequest: { $in: requestIds },
       provider: req.user.id,
-    }).select("serviceRequest");
-
-    const quotedRequestIds = new Set(myQuotes.map((q) => q.serviceRequest.toString()));
-
+    }).select("serviceRequest status");
+    
+    const quoteStatusMap = new Map(
+  myQuotes.map((q) => [
+    q.serviceRequest.toString(),
+    q.status,
+  ])
+);
+   
     // Har request object mein "hasQuoted" flag add kar do
-    const requestsWithFlag = requests.map((r) => ({
-      ...r.toObject(),
-      hasQuoted: quotedRequestIds.has(r._id.toString()),
-    }));
-     console.log("requestsWithFlag",quotedRequestIds)
+    const requestsWithFlag = requests.map((r) => {
+  const quoteStatus = quoteStatusMap.get(r._id.toString()) || null;
+
+  return {
+    ...r.toObject(),
+
+    // provider ne quote submit ki hai ya nahi
+    hasQuoted: quoteStatus !== null,
+
+    // provider ki quote ka current status
+    myQuoteStatus: quoteStatus,
+  };
+});
+     
     res.status(200).json({ count: requestsWithFlag.length, requests: requestsWithFlag });
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
