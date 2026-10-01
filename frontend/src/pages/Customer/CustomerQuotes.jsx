@@ -68,6 +68,10 @@ const handleViewProfile = (providerId) => {
 const handleConfirmBooking = (quoteId) => {
   // backend endpoint confirm hone ke baad yahan API call aayegi
   console.log("Confirm booking for quote:", quoteId);
+  const confirmed = window.confirm("Are you sure you want to confirm this booking?");
+  if (confirmed) {
+    // Proceed with booking confirmation logic
+  }
 };
 
 
