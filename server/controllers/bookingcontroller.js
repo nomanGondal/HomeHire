@@ -72,9 +72,7 @@ const acceptQuote = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
-};
-
-module.exports = { acceptQuote };
+}; 
 // @route  GET /api/bookings/my
 const getMyBookings = async (req, res) => {
   try {
@@ -88,6 +86,8 @@ const getMyBookings = async (req, res) => {
       .populate("customer", "name phone")
       .populate("provider", "name phone")
       .populate("category", "name slug")
+      .populate("serviceRequest", "description")
+      
       .sort({ createdAt: -1 });
 
     res.status(200).json({ count: bookings.length, bookings });

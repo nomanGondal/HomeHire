@@ -1,9 +1,6 @@
-import React from 'react'
+// src/pages/Provider/ProviderBookings.jsx
+import BookingsList from "../shared/Bookinglist";
 
-const ProviderBookings = () => {
-  return (
-    <div>ProviderBookings</div>
-  )
-}
+const ProviderBookings = () => <BookingsList viewerRole="provider" />;
 
-export default ProviderBookings
+export default ProviderBookings;

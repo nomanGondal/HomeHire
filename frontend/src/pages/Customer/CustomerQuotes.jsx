@@ -66,12 +66,23 @@ const handleViewProfile = (providerId) => {
 };
 
 const handleConfirmBooking = (quoteId) => {
-  // backend endpoint confirm hone ke baad yahan API call aayegi
-  console.log("Confirm booking for quote:", quoteId);
+ 
+  
   const confirmed = window.confirm("Are you sure you want to confirm this booking?");
   if (confirmed) {
-    // Proceed with booking confirmation logic
+    const token = localStorage.getItem("token");
+    const reponse = fetch(`http://localhost:5000/api/quotes/${quoteId}/accept`,{
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = reponse.json();
+    console.log("Booking confirmed:", data);
+    alert("Booking confirmed successfully!");
   }
+
 };
 
 

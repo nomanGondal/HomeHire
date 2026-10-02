@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import "././css/Home.css";
 import RequestServiceModal from "./RequestServiceModal";
-
+import BookingsList from "../shared/Bookinglist";
 
 const STATS = [
   { label: "Active Bookings", value: 2, icon: Briefcase },
@@ -153,29 +153,10 @@ const CustomerHome = () => {
       <section className="home-section">
         <div className="section-header-row">
           <h2 className="section-title">Active Bookings</h2>
-          <a href="/customer/bookings" className="see-all-link">See all</a>
+          <Link path="/customer/bookings">See All</Link>
         </div>
-
-        {ACTIVE_BOOKINGS.length === 0 ? (
-          <p className="empty-text">You have no active bookings right now.</p>
-        ) : (
-          <div className="booking-list">
-            {ACTIVE_BOOKINGS.map((booking) => (
-              <div className="booking-card" key={booking.id}>
-                <div>
-                  <p className="booking-provider">{booking.providerName}</p>
-                  <p className="booking-category">{booking.category}</p>
-                </div>
-                <div className="booking-right">
-                  <span className="booking-date">
-                    <Clock size={14} /> {booking.date}
-                  </span>
-                  <span className="booking-status">{booking.status}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
+          <BookingsList viewerRole="customer" limit={2} compact />
+        
       </section>
 
 
