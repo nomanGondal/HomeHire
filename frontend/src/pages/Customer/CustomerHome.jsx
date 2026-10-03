@@ -16,7 +16,7 @@ import {
 import "././css/Home.css";
 import RequestServiceModal from "./RequestServiceModal";
 import BookingsList from "../shared/Bookinglist";
-
+import { Link } from "react-router-dom";
 const STATS = [
   { label: "Active Bookings", value: 2, icon: Briefcase },
   { label: "Completed Jobs", value: 14, icon: CheckCircle },
