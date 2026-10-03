@@ -153,7 +153,7 @@ const CustomerHome = () => {
       <section className="home-section">
         <div className="section-header-row">
           <h2 className="section-title">Active Bookings</h2>
-          <Link path="/customer/bookings">See All</Link>
+          <Link to="/customer/bookings">See All</Link>
         </div>
           <BookingsList viewerRole="customer" limit={2} compact />
         
