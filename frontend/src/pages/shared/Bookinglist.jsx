@@ -6,6 +6,7 @@ import "./Bookinglist.css";
 
 const statusConfig = {
     confirmed: { label: "Confirmed", className: "confirmed" },
+    "in-progress": { label: "In Progress", className: "in-progress" },
     completed: { label: "Completed", className: "completed" },
     cancelled: { label: "Cancelled", className: "cancelled" },
 };
@@ -40,6 +41,37 @@ const Bookingslist = ({ viewerRole, limit, compact = false }) => {
         fetchBookings();
     }, []);
 
+    const handleUpdateStatus = async (bookingId, newStatus) => {
+        const token = localStorage.getItem("token");
+
+        try {
+            const response = await fetch(
+                `http://127.0.0.1:5000/api/bookings/${bookingId}/status`,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({ status: newStatus }),
+                }
+            );
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                console.error("Failed to update status:", data.message);
+                return;
+            }
+
+            // Local list mein bhi turant update kar do, dobara fetch kiye bina
+            setBookings((prev) =>
+                prev.map((b) => (b._id === bookingId ? { ...b, status: newStatus } : b))
+            );
+        } catch (err) {
+            console.error("Status update error:", err);
+        }
+    };
     // Whichever side the viewer ISN'T, show that person's details on the card
     const getCounterpart = (booking) =>
         viewerRole === "customer" ? booking.provider : booking.customer;
@@ -114,6 +146,37 @@ const Bookingslist = ({ viewerRole, limit, compact = false }) => {
                                         >
                                             View Details
                                         </button>
+                                        {viewerRole === "provider" && (
+                                            <>
+                                                {booking.status === "confirmed" && (
+                                                    <>
+                                                        <button
+                                                            className="booking-action-btn success"
+                                                            onClick={() => handleUpdateStatus(booking._id, "in-progress")}
+                                                        >
+                                                            Mark In-Progress
+                                                        </button>
+                                                        <button
+                                                            className="booking-action-btn danger"
+                                                            onClick={() => handleUpdateStatus(booking._id, "cancelled")}
+                                                        >
+                                                            Cancel
+                                                        </button>
+                                                    </>
+                                                )
+                                                }
+
+                                                {booking.status === "in-progress" && (
+                                                    <button
+                                                        className="booking-action-btn complete"
+                                                        onClick={() => handleUpdateStatus(booking._id, "completed")}
+                                                    >
+                                                        Mark Completed
+                                                    </button>
+
+                                                )}
+                                            </>
+                                        )}
                                     </div>
                                 )}
                             </div>

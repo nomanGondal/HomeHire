@@ -1,4 +1,32 @@
 /* src/pages/shared/css/BookingsList.css */
+.booking-action-btn.danger {
+  background-color: transparent;
+  border-color: #e53e3e;
+  color: #e53e3e;
+}
+
+.booking-action-btn.danger:hover {
+  background-color: rgba(229, 62, 62, 0.08);
+}
+.booking-action-btn.success {
+  background-color: #2563eb;
+  border-color: #2563eb;
+  color: #ffffff;
+}
+
+.booking-action-btn.success:hover {
+  background-color: #1d4ed8;
+}
+
+.booking-action-btn.complete {
+  background-color: #25eb50;
+  border-color: #25eb50;
+  color: #ffffff;
+}
+
+.booking-action-btn.complete:hover {
+  background-color: #1d8c5a;
+}
 
 .bookings-header {
   margin-bottom: 1.5rem;
@@ -95,6 +123,11 @@
   background-color: rgba(43, 127, 255, 0.1);
 }
 
+.booking-status-badge.in-progress {
+  color: #ffa500;
+  background-color: rgba(255, 165, 0, 0.1);
+}
+
 .booking-status-badge.completed {
   color: #2f855a;
   background-color: rgba(47, 133, 90, 0.1);
@@ -150,13 +183,13 @@
 }
 
 .booking-action-btn.primary {
-  background-color: #2b7fff;
-  border-color: #2b7fff;
+  background-color: #616670;
+  border-color: #616670;
   color: #ffffff;
 }
 
 .booking-action-btn.primary:hover {
-  background-color: #1a5bc2;
+  background-color: #4A5568;
 }
 
 @media (max-width: 480px) {

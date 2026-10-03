@@ -89,11 +89,64 @@ const getMyBookings = async (req, res) => {
       .populate("serviceRequest", "description")
       
       .sort({ createdAt: -1 });
-
     res.status(200).json({ count: bookings.length, bookings });
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
+}
+// @route  PUT /api/bookings/:id/status
+const updateBookingStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    const booking = await Booking.findById(id);
+    if (!booking) {
+      return res.status(404).json({ message: "Booking not found" });
+    }
+
+    // Only the provider assigned to this booking can update its status
+    if (booking.provider.toString() !== req.user.id) {
+      return res.status(403).json({ message: "You are not allowed to update this booking" });
+    }
+
+        // Define which transitions are allowed
+         const validTransitions = {
+      confirmed: "in-progress",
+      "in-progress": "completed",
+    };
+
+    const expectedNextStatus = validTransitions[booking.status];
+
+    if (!expectedNextStatus) {
+      return res.status(400).json({ message: `Booking cannot be updated from its current status: ${booking.status}` });
+    }
+
+    if (status !== expectedNextStatus) {
+      return res.status(400).json({
+        message: `Invalid status transition. From "${booking.status}", only "${expectedNextStatus}" is allowed.`,
+      });
+    }
+
+        booking.status = status;
+
+    if (status === "completed") {
+      booking.completedAt = new Date();
+      // TODO: increment ProviderProfile.completedJobsCount here
+    }
+
+    await booking.save();
+
+    // TODO: trigger notification to customer — booking status changed
+
+    res.status(200).json({ message: `Booking marked as ${status}`, booking });
+
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+  
+
 };
 
-module.exports = { getMyBookings, acceptQuote };
+
+module.exports = { getMyBookings, acceptQuote , updateBookingStatus};
