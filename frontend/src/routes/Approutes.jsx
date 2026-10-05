@@ -23,7 +23,7 @@ import CustomerRequests from "../pages/Customer/CustomerRequests";
 import CustomerProfile from "../pages/Customer/CustomerProfile";
 import CustomerQuotes from "../pages/Customer/CustomerQuotes"
 import CustomerProviderProfile from "../pages/Customer/CustomerProviderProfile";
-
+import Notification from "../pages/shared/Notification";
 import PageNotFound from "../pages/PageNotFound";
 const Approutes = () => {
    return (
@@ -57,6 +57,7 @@ const Approutes = () => {
                <Route path="messages" element={<CustomerMessages />} />
                <Route path="requests" element={<CustomerRequests />} />
                <Route path="profile" element={<CustomerProfile />} />
+               <Route path="notifications" element={<Notification />} />
                <Route path="requests/:requestId/quotes" element={<CustomerQuotes />} />
                <Route path="provider/:providerId" element={<CustomerProviderProfile />} />
             </Route>

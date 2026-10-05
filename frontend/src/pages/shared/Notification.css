@@ -1,0 +1,157 @@
+/* src/pages/shared/css/Notification.css */
+
+.notifications-header {
+  margin-bottom: 1.5rem;
+}
+
+.notifications-heading {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #132A3A;
+  margin-bottom: 0.3rem;
+}
+
+.notifications-subtext {
+  font-size: 0.9rem;
+  color: #5C6B73;
+}
+
+.notifications-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 3rem 1rem;
+  color: #9AA5AB;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.notifications-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.notification-card {
+  background-color: #ffffff;
+  border: 1px solid #E4E7EA;
+  border-radius: 10px;
+  padding: 1rem 1.1rem;
+  display: flex;
+  gap: 0.9rem;
+}
+
+.notification-card.unread {
+  border-left: 3px solid #2b7fff;
+  background-color: rgba(43, 127, 255, 0.03);
+}
+
+.notification-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background-color: rgba(43, 127, 255, 0.1);
+  color: #2b7fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.notification-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.notification-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-bottom: 0.3rem;
+}
+
+.notification-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #132A3A;
+}
+
+.notification-time {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  color: #9AA5AB;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.notification-message {
+  font-size: 0.88rem;
+  color: #3D4A52;
+  line-height: 1.4;
+  margin-bottom: 0.8rem;
+}
+
+.notification-actions {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.notif-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.notif-action-btn.accept {
+  background-color: #2f855a;
+  border: none;
+  color: #ffffff;
+}
+
+.notif-action-btn.accept:hover {
+  background-color: #276749;
+}
+
+.notif-action-btn.reject {
+  background-color: transparent;
+  border: 1px solid #e53e3e;
+  color: #e53e3e;
+}
+
+.notif-action-btn.reject:hover {
+  background-color: rgba(229, 62, 62, 0.08);
+}
+
+.notification-status-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+}
+
+.notification-status-badge.accepted {
+  color: #2f855a;
+  background-color: rgba(47, 133, 90, 0.1);
+}
+
+.notification-status-badge.rejected {
+  color: #e53e3e;
+  background-color: rgba(229, 62, 62, 0.1);
+}
+
+@media (max-width: 480px) {
+  .notification-actions {
+    flex-direction: column;
+  }
+}

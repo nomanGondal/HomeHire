@@ -31,17 +31,18 @@ verificationStatus: "pending" };
 const getProviderProfileById = async (req, res) => {
   try {
     const { id } = req.params; // provider's User _id (not ProviderProfile _id)
-
-    const profile = await ProviderProfile.findOne({ user: id})
+    
+    const profile = await ProviderProfile.findOne({ user: id })
       .populate("user", "name")
       .populate("services.category", "name slug")
-      .select("-cnic",);
-
+      .select("-cnic");
+    console.log("Fetched provider profile:", profile);
     if (!profile) {
       return res.status(404).json({ message: "Provider not found" });
     }
-
+    
     res.status(200).json({ profile });
+
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }

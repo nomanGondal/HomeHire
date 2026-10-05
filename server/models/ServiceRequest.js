@@ -47,7 +47,7 @@ const serviceRequestSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["open","quoted" ,"booked", "cancelled", "expired"],
+      enum: ["open","quoted" ,"booked","closed", "cancelled", "expired"],
       default: "open",
     },
 

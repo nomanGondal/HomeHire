@@ -1,7 +1,7 @@
 const Booking = require("../models/Booking");
 const ServiceRequest = require("../models/ServiceRequest");
 const Quote = require("../models/Quote");
-
+const Notifications = require("../models/Notifications");
 // @route  PUT /api/quotes/:id/accept
 const acceptQuote = async (req, res) => {
   try {
@@ -113,7 +113,11 @@ const updateBookingStatus = async (req, res) => {
         // Define which transitions are allowed
          const validTransitions = {
       confirmed: "in-progress",
-      "in-progress": "completed",
+      "in-progress": "waiting-for-customer-confirmation",
+      "waiting-for-customer-confirmation": "completed",
+      completed: null, // no further transitions allowed
+      cancelled: null, 
+      disputed: null, 
     };
 
     const expectedNextStatus = validTransitions[booking.status];
@@ -129,17 +133,41 @@ const updateBookingStatus = async (req, res) => {
     }
 
         booking.status = status;
+      
+    if (status === "waiting-for-customer-confirmation") {
 
-    if (status === "completed") {
-      booking.completedAt = new Date();
+       const notification = await Notifications.create({
+  recipient: booking.customer,
+  sender: req.user.id,
+  booking: booking._id,
+  type: "job_completion_request",
+  title: "Job Completion Request",
+  message: "The provider has marked your job as complete. Do you accept?",
+        });
+        
+      await booking.save();
+      res.status(200).json({
+  message: "Completion request sent to customer",
+  notification,
+});
+ 
+
       // TODO: increment ProviderProfile.completedJobsCount here
     }
-
-    await booking.save();
-
-    // TODO: trigger notification to customer — booking status changed
-
-    res.status(200).json({ message: `Booking marked as ${status}`, booking });
+if (status ==="in-progress") {
+  await booking.save();
+      res.status(200).json({
+  message: "Booking status updated to in-progress",
+})}
+        
+ if (status === "completed" && req.user.role === "customer") {
+      booking.status = "completed";
+      booking.completedAt = new Date();
+      await booking.save();
+      res.status(200).json({
+        message: "Booking marked as completed by customer",
+      });
+    }
 
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });

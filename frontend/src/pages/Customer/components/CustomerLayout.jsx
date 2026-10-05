@@ -1,5 +1,5 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import { Home, Search, Calendar, MessageSquare, FileText, User, LogOut } from "lucide-react";
+import { Home, Search, Calendar, MessageSquare, FileText, User, LogOut,Bell } from "lucide-react";
 import "../css/CustomerLayout.css";
 
 const navItems = [
@@ -9,6 +9,7 @@ const navItems = [
   { to: "/customer/messages", label: "Messages", icon: MessageSquare },
   { to: "/customer/requests", label: "My Requests", icon: FileText },
   { to: "/customer/profile", label: "Profile", icon: User },
+  { to: "/customer/notifications", label: "Notifications", icon: Bell },
 ];
 
 const CustomerLayout = () => {

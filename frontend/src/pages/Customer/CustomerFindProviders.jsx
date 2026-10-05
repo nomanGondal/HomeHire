@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState} from "react";
+import { useNavigate } from "react-router-dom";
 import { Star, MapPin, BadgeCheck } from "lucide-react";
 import "././css/FindProvider.css";
 import RequestServiceModal from "./RequestServiceModal";
 const CustomerFindProviders = () => {
   const [categories, setCategories] = useState([]);
+  const navigate = useNavigate();
   const [providers, setProviders] = useState([]);
   const [categoryId, setCategoryId] = useState("");
   const [loading, setLoading] = useState(true);
@@ -69,6 +71,10 @@ const CustomerFindProviders = () => {
     console.log("Selected provider for request:", provider);
     setShowRequestModal(true);
   };
+  const handleViewProfile = (providerId) => {
+  navigate(`/customer/provider/${providerId}`);
+};
+
 
   return (
     <div className="find-providers-page">
@@ -127,7 +133,9 @@ const CustomerFindProviders = () => {
                   </span>
                 </div>
 
-                <button className="view-profile-btn">View Profile</button>
+                <button className="view-profile-btn" onClick={() => handleViewProfile(provider.user._id)}>
+                  View Profile
+                </button>
                 <button
                   className="view-profile-btn"
                   onClick={() => handleOpenRequest(provider)}

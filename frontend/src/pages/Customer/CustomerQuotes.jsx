@@ -26,6 +26,7 @@ useEffect(() => {
         }
       );
       const data = await response.json();
+      console.log("Fetched quotes:", data.quotes);
       setQuotes(data.quotes || []);
     } catch (err) {
       console.error("Failed to load quotes:", err);
