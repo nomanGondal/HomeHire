@@ -180,6 +180,7 @@ const Bookingslist = ({ viewerRole, limit, compact = false }) => {
                                                     <button className="booking-action-btn wait" disabled>waiting....</button>
                                                 )
                                                 }
+                                                
                                             </>
                                         )}
                                     </div>

@@ -12,10 +12,30 @@ const statusConfig = {
 
 const CustomerRequests = () => {
   const [requests, setRequests] = useState([]);
+  const [booking, setBooking] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  
-  
+  const fetchMyBookings = async () => {
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await fetch(
+        "http://127.0.0.1:5000/api/bookings/my",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const data = await response.json();
+      setBooking(data.bookings || []);
+    } catch (err) {
+      console.error("Failed to load bookings:", err);
+    }
+  };
+
   useEffect(() => {
     const fetchMyRequests = async () => {
       const token = localStorage.getItem("token");
@@ -32,7 +52,7 @@ const CustomerRequests = () => {
           }
         );
         const data = await response.json();
-        console.log("the state data is ",data)
+        console.log("the state data is ", data)
         setRequests(data.requests || []);
 
       } catch (err) {
@@ -41,50 +61,50 @@ const CustomerRequests = () => {
         setLoading(false);
       }
     };
-
+    fetchMyBookings();
     fetchMyRequests();
   }, []);
-const handleDelete = async (request) => {
-     const confirmed = window.confirm(
-    "Are you sure you want to delete this request?"
-  );
-
-  if (!confirmed) {
-    return;
-  }
-
-  try {
-    const token = localStorage.getItem("token");
-
-    const response = await fetch(
-      `http://127.0.0.1:5000/api/requests/${request._id}/delete`,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
+  const handleDelete = async (request) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this request?"
     );
 
-    const data = await response.json();
-
-    console.log("Server response:", data);
-
-    if (response.ok) {
-      alert(data.message || "Request deleted successfully!");
-
-      // Reload the page/component
-      window.location.reload();
-    } else {
-      alert(data.message || "Failed to delete request.");
+    if (!confirmed) {
+      return;
     }
-  } catch (error) {
-    console.error("Delete request error:", error);
-    alert("Something went wrong. Please try again.");
-  }
-};
-  
+
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await fetch(
+        `http://127.0.0.1:5000/api/requests/${request._id}/delete`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const data = await response.json();
+
+      console.log("Server response:", data);
+
+      if (response.ok) {
+        alert(data.message || "Request deleted successfully!");
+
+        // Reload the page/component
+        window.location.reload();
+      } else {
+        alert(data.message || "Failed to delete request.");
+      }
+    } catch (error) {
+      console.error("Delete request error:", error);
+      alert("Something went wrong. Please try again.");
+    }
+  };
+
   return (
     <div className="requests-page">
       <div className="requests-header">
@@ -124,23 +144,29 @@ const handleDelete = async (request) => {
                   <span><Clock size={13} /> {new Date(request.createdAt).toLocaleDateString()}</span>
                 </div>
                 {request.status === "quoted" && (
+
                   <button
                     className="request-action-btn primary"
                     onClick={() =>
-      navigate(`/customer/requests/${request._id}/quotes`, {
-        state: { request },
-      })
-    }
+                      navigate(`/customer/requests/${request._id}/quotes`, {
+                        state: { request },
+                      })
+                    }
                   >
                     View Quotes
                   </button>
-                )}
-                <button
+
+                )
+                }
+                {
+                (request.status === "open") && ( <button
                   className="request-action-btn danger"
                   onClick={() => handleDelete(request)}
                 >
                   Delete request
-                </button>
+                </button>)
+                }
+               
               </div>
             );
           })}
