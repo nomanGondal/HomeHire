@@ -192,12 +192,12 @@ const ProviderHome = () => {
                         Accepted</button>
                     ) : job.myQuoteStatus === "rejected" ? (
                       <button className="job-quote-btn rejected" disabled> Rejected</button>
-                    ):
+                    ) :
 
-                    <button className="job-quote-btn quoted" disabled>
-                      Quoted
-                    </button>
-                    
+                      <button className="job-quote-btn quoted" disabled>
+                        Quoted
+                      </button>
+
                   ) : (
                     <button
                       className="job-quote-btn"
