@@ -176,11 +176,11 @@ const Bookingslist = ({ viewerRole, limit, compact = false }) => {
                                                     </button>
 
                                                 )}
-                                                {booking.status === "waiting-for-customer-confirmation" &&(
+                                                {booking.status === "waiting-for-customer-confirmation" && (
                                                     <button className="booking-action-btn wait" disabled>waiting....</button>
                                                 )
                                                 }
-                                                
+
                                             </>
                                         )}
                                     </div>
