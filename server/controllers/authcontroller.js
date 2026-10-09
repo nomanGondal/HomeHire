@@ -137,7 +137,7 @@ const verifyOtp = async (req, res) => {
     }
     
     await Otp.deleteOne({ _id: record._id }); // one-time use, remove pending data
-
+   
     res.status(201).json({
       message: "Account verified and created successfully",
       user: { id: user._id, name: user.name, phone: user.phone, role: user.role },
