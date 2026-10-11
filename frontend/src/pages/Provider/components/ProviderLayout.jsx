@@ -1,4 +1,6 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { connectSocket, disconnectSocket } from "../../../socketio/socketio";
 import { Home, Wrench, Calendar, MessageSquare, FileText, User, LogOut } from "lucide-react";
 import "./ProviderLayout.css";
 
@@ -13,6 +15,15 @@ const navItems = [
 
 const ProviderLayout = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+  connectSocket();
+  
+  return () => {
+    disconnectSocket();
+  };
+}, []);
+
 
   const handleLogout = () => {
     localStorage.removeItem("token");

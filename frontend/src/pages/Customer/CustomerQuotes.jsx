@@ -12,7 +12,7 @@ const CustomerQuotes = () => {
   const [request, setRequest] = useState(location.state?.request || null);
   const [quotes, setQuotes] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const [comfirmbooking,setComfirmBooking] = useState(false);
 useEffect(() => {
   const fetchQuotes = async () => {
     try {
@@ -81,7 +81,7 @@ const handleConfirmBooking = async (quoteId) => {
     });
     const data = await reponse.json();
     console.log("Booking confirmed:", data);
-    alert("Booking confirmed successfully!");
+    setComfirmBooking(true);
   }
 
 };
@@ -137,12 +137,18 @@ const handleConfirmBooking = async (quoteId) => {
               >
                 View Profile
               </button>
+              {comfirmbooking ? (
+                <button className="quote-btn primary" disabled>
+                  Booked
+                </button>
+              ) : 
               <button
                 className="quote-btn primary"
                 onClick={() => handleConfirmBooking(quote._id)}
               >
                 Confirm Booking
               </button>
+              }
             </div>
           </div>
         ))}

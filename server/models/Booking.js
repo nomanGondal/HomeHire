@@ -48,6 +48,9 @@ const bookingSchema = new mongoose.Schema(
     cancellationReason: {
       type: String,
     },
+    note:{
+      type: String,
+    },
     completedAt: {
       type: Date,
     },

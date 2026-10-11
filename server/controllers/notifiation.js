@@ -42,11 +42,16 @@ const updateNotificationStatus = async (req, res) => {
       notification.status = "accepted";
       notification.isRead = true; // Mark the notification as read
       await notification.save();
+      const io = req.app.get("io");
+      io.to(notification.sender.toString()).emit("closebookingnotification", booking);
     } else if (status === "rejected") {
       booking.status = "in-progress"; // Example: Mark the booking as in progress
+      booking.note = "Booking rejected by customer"; // Example: Add a note about the rejection
       await booking.save();
       notification.status = "rejected";
       notification.isRead = true; // Mark the notification as read
+      const io = req.app.get("io");
+      io.to(notification.sender.toString()).emit("cancelbookingnotification", booking);
       await notification.save();
     }
     res.status(200).json({ message: "Notification status updated successfully" });

@@ -133,9 +133,9 @@ const updateBookingStatus = async (req, res) => {
     }
 
         booking.status = status;
-      
+        booking.note = "";
     if (status === "waiting-for-customer-confirmation") {
-
+       
        const notification = await Notifications.create({
   recipient: booking.customer,
   sender: req.user.id,

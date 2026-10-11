@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { Calendar, MapPin, Wallet, Phone, User } from "lucide-react";
 import BookingDetailsModal from "./BookingDetailedModel";
+import { connectSocket } from "../../socketio/socketio";
 import "./Bookinglist.css";
 
 const statusConfig = {
@@ -20,7 +21,7 @@ const Bookingslist = ({ viewerRole, limit, compact = false }) => {
     useEffect(() => {
         const fetchBookings = async () => {
             const token = localStorage.getItem("token");
-
+            
             try {
                 const response = await fetch("http://127.0.0.1:5000/api/bookings/my", {
                     method: "GET",
@@ -38,13 +39,29 @@ const Bookingslist = ({ viewerRole, limit, compact = false }) => {
                 setLoading(false);
             }
         };
-
+        const socket = connectSocket();
         fetchBookings();
+        socket.on("closebookingnotification", (updatedBooking) => {
+            console.log("Received closebookingnotification:", updatedBooking);
+            setBookings((prev) =>
+                prev.map((b) => (b._id === updatedBooking._id ? { ...b, status: updatedBooking.status, note: updatedBooking.note } : b))
+            );
+        });
+        socket.on("cancelbookingnotification", (updatedBooking) => {
+            console.log("Received cancelbookingnotification:", updatedBooking);
+            setBookings((prev) =>
+                prev.map((b) => (b._id === updatedBooking._id ? { ...b, status: updatedBooking.status, note: updatedBooking.note } : b))
+            );
+        });
+      return () => {
+        socket.off("closebookingnotification");
+        socket.off("cancelbookingnotification");
+      }
     }, []);
 
     const handleUpdateStatus = async (bookingId, newStatus) => {
         const token = localStorage.getItem("token");
-
+        
         try {
             const response = await fetch(
                 `http://127.0.0.1:5000/api/bookings/${bookingId}/status`,
@@ -67,7 +84,7 @@ const Bookingslist = ({ viewerRole, limit, compact = false }) => {
 
             // Local list mein bhi turant update kar do, dobara fetch kiye bina
             setBookings((prev) =>
-                prev.map((b) => (b._id === bookingId ? { ...b, status: newStatus } : b))
+                prev.map((b) => (b._id === bookingId ? { ...b, status: newStatus, note: "" } : b))
             );
         } catch (err) {
             console.error("Status update error:", err);
@@ -116,7 +133,16 @@ const Bookingslist = ({ viewerRole, limit, compact = false }) => {
                                         </span>
                                         <span className={`booking-status-badge ${status.className}`}>
                                             {status.label}
+                                            {booking.note && (
+                                                <span className="booking-note">
+                                                    <br />
+                                                    Note: {booking.note} try again 
+                                                </span>
+                                            )
+                                                
+                                            }
                                         </span>
+                                     
                                     </div>
 
                                     <span className="booking-item-category">{booking.category?.name}</span>
