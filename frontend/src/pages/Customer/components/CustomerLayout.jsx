@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { connectSocket, disconnectSocket } from "../../../socketio/socketio";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { Home, Search, Calendar, MessageSquare, FileText, User, LogOut,Bell } from "lucide-react";
 import "../css/CustomerLayout.css";
@@ -15,6 +17,14 @@ const navItems = [
 const CustomerLayout = () => {
   const navigate = useNavigate();
 
+// inside the component:
+useEffect(() => {
+  connectSocket();
+   
+  return () => {
+    disconnectSocket();
+  };
+}, []);
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");

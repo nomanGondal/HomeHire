@@ -1,6 +1,7 @@
 // src/pages/shared/NotificationsPage.jsx
 import { useState, useEffect } from "react";
 import { Bell, CheckCircle, XCircle, Clock } from "lucide-react";
+import { connectSocket } from "../../socketio/socketio";
 import "./Notification.css";
 
 // Maps a notification "type" to an icon — extend this as more types are added
@@ -25,6 +26,8 @@ const Notification = () => {
   const [respondingId, setRespondingId] = useState(null); // which card is mid-request
 
   useEffect(() => {
+    let isActive = true;
+
     const fetchNotifications = async () => {
       const token = localStorage.getItem("token");
 
@@ -43,15 +46,53 @@ const Notification = () => {
           (n) => !n.isRead && n.status === "pending"
         );
 
-        setNotifications(visible);
+        if (isActive) {
+          setNotifications((current) => {
+            const notificationsById = new Map(
+              visible.map((notification) => [notification._id, notification])
+            );
+
+            current.forEach((notification) => {
+              if (!notificationsById.has(notification._id)) {
+                notificationsById.set(notification._id, notification);
+              }
+            });
+
+            return [...notificationsById.values()].sort(
+              (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+            );
+          });
+        }
       } catch (err) {
         console.error("Failed to load notifications:", err);
       } finally {
-        setLoading(false);
+        if (isActive) setLoading(false);
       }
     };
 
+    const socket = connectSocket();
+    const handleNewNotification = (notification) => {
+      if (
+        notification?._id &&
+        !notification.isRead &&
+        notification.status === "pending"
+      ) {
+        setNotifications((current) => [
+          notification,
+          ...current.filter((item) => item._id !== notification._id),
+        ]);
+      }
+
+      fetchNotifications();
+    };
+
+    socket.on("completebookingnotification", handleNewNotification);
     fetchNotifications();
+
+    return () => {
+      isActive = false;
+      socket.off("completebookingnotification", handleNewNotification);
+    };
   }, []);
 
   const handleRespond = async (notificationId, newStatus) => {

@@ -66,20 +66,20 @@ const handleViewProfile = (providerId) => {
   navigate(`/customer/provider/${providerId}`);
 };
 
-const handleConfirmBooking = (quoteId) => {
+const handleConfirmBooking = async (quoteId) => {
  
   
   const confirmed = window.confirm("Are you sure you want to confirm this booking?");
   if (confirmed) {
     const token = localStorage.getItem("token");
-    const reponse = fetch(`http://localhost:5000/api/quotes/${quoteId}/accept`,{
+    const reponse =await fetch(`http://localhost:5000/api/quotes/${quoteId}/accept`,{
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });
-    const data = reponse.json();
+    const data = await reponse.json();
     console.log("Booking confirmed:", data);
     alert("Booking confirmed successfully!");
   }

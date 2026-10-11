@@ -146,6 +146,8 @@ const updateBookingStatus = async (req, res) => {
         });
         
       await booking.save();
+      const io = req.app.get("io");
+      io.to(booking.customer.toString()).emit("completebookingnotification", notification);
       res.status(200).json({
   message: "Completion request sent to customer",
   notification,

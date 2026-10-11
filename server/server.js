@@ -5,16 +5,19 @@ const http = require("http");
 const {Server} =require("socket.io")
 const cors = require("cors");
 const app = express();
+const initializeSocket =require("./socketio/initializeSocket.js");
 
-
-app.use(cors({ origin: "http://localhost:5173" }));
 
 const server=http.createServer(app)
+
 const io = new Server(server, {
   cors: {
     origin: "http://localhost:5173",
   },
 });
+
+app.use(cors({ origin: "http://localhost:5173" }));
+
 //DB connection 
 const connectDB = require("./config/db");
 
@@ -29,6 +32,8 @@ const customerProfileRoutes = require("./routes/customerprofile");
 const customerHomeRoutes = require("./routes/customerhome");
 const notificationRoutes = require("./routes/notify");
 //Middlewares
+app.set("io",io)
+initializeSocket(io);
 app.use(express.json());
 const PORT = 5000;
 connectDB();
