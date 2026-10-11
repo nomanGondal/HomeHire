@@ -1,7 +1,24 @@
 const express = require("express");
 const dotenv = require("dotenv");
+dotenv.config();
+const http = require("http");
+const {Server} =require("socket.io")
 const cors = require("cors");
+const app = express();
+
+
+app.use(cors({ origin: "http://localhost:5173" }));
+
+const server=http.createServer(app)
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:5173",
+  },
+});
+//DB connection 
 const connectDB = require("./config/db");
+
+//Routes
 const authRoutes = require("./routes/authRouthes");
 const providerRoutes = require("./routes/providerRoute");
 const categoryRoutes = require("./routes/categoryRoutes");
@@ -12,11 +29,8 @@ const customerProfileRoutes = require("./routes/customerprofile");
 const customerHomeRoutes = require("./routes/customerhome");
 const notificationRoutes = require("./routes/notify");
 //Middlewares
-const app = express();
-app.use(cors());
 app.use(express.json());
 const PORT = 5000;
-dotenv.config();
 connectDB();
 
 
@@ -33,6 +47,8 @@ app.use("/api/bookings", bookingRoutes);
 app.use("/api/customer", customerProfileRoutes);
 app.use("/api/customerhome", customerHomeRoutes);
 app.use("/api/notifications", notificationRoutes);
-app.listen(PORT, () => {
+
+
+server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}...`);
 });
