@@ -54,6 +54,6 @@ app.use("/api/customerhome", customerHomeRoutes);
 app.use("/api/notifications", notificationRoutes);
 
 
-server.listen(PORT, () => {
+server.listen(PORT, "0.0.0.0", () => {
   console.log(`Server running on port ${PORT}...`);
 });

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Clock, MapPin, FileText, X } from "lucide-react";
-import "././css/MyRequests.css"
+import "./css/MyRequests.css";
 import { useNavigate } from "react-router-dom";
 import { apiUrl } from "../../lib/api";
 const statusConfig = {
