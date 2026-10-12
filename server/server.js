@@ -11,7 +11,7 @@ const initializeSocket =require("./socketio/initializeSocket.js");
 const server=http.createServer(app)
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://home-hire-wheat.vercel.app/",
+  "https://home-hire-wheat.vercel.app",
 ];
 const io = new Server(server, {
   cors: {
