@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Clock, MapPin, FileText, X } from "lucide-react";
 import "././css/MyRequests.css"
 import { useNavigate } from "react-router-dom";
+import { apiUrl } from "../../lib/api";
 const statusConfig = {
   open: { label: "Open", className: "open" },
   quoted: { label: "Quotes Received", className: "quoted" },
@@ -20,7 +21,7 @@ const CustomerRequests = () => {
 
     try {
       const response = await fetch(
-        "http://127.0.0.1:5000/api/bookings/my",
+        apiUrl("/api/bookings/my"),
         {
           method: "GET",
           headers: {
@@ -42,7 +43,7 @@ const CustomerRequests = () => {
 
       try {
         const response = await fetch(
-          "http://127.0.0.1:5000/api/requests/my",
+          apiUrl("/api/requests/my"),
           {
             method: "GET",
             headers: {
@@ -77,7 +78,7 @@ const CustomerRequests = () => {
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        `http://127.0.0.1:5000/api/requests/${request._id}/delete`,
+        apiUrl(`/api/requests/${request._id}/delete`),
         {
           method: "DELETE",
           headers: {

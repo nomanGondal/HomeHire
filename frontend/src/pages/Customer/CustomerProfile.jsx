@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { User, MapPin, Lock, Save } from "lucide-react";
+import { apiUrl } from "../../lib/api";
 import "././css/profile.css";
 
 const CustomerProfile = () => {
@@ -27,7 +28,7 @@ const CustomerProfile = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:5000/api/customer/profile/me", {
+        const response = await fetch(apiUrl("/api/customer/profile/me"), {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -71,7 +72,7 @@ const CustomerProfile = () => {
     setError("");
 
     try {
-      const response = await fetch("http://127.0.0.1:5000/api/customer/profile/me", {
+      const response = await fetch(apiUrl("/api/customer/profile/me"), {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -112,7 +113,7 @@ const CustomerProfile = () => {
     setError("");
 
     try {
-      const response = await fetch("http://127.0.0.1:5000/api/customer/profile/me/addresses", {
+      const response = await fetch(apiUrl("/api/customer/profile/me/addresses"), {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -160,7 +161,7 @@ const CustomerProfile = () => {
     setPasswordSuccess("");
 
     try {
-      const response = await fetch("http://127.0.0.1:5000/api/customer/profile/me/password", {
+      const response = await fetch(apiUrl("/api/customer/profile/me/password"), {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

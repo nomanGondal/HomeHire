@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { apiUrl } from "../../lib/api";
 //import "./CheckProfile.css";
 
 const CheckProfile = () => {
@@ -11,7 +12,7 @@ const CheckProfile = () => {
 
       try {
         const response = await fetch(
-          "http://127.0.0.1:5000/api/provider/profile/me",
+          apiUrl("/api/provider/profile/me"),
           {
             method: "GET",
             headers: {

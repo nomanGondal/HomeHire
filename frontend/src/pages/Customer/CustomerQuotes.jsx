@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { Wallet, Clock, ArrowLeft, MapPin } from "lucide-react";
+import { apiUrl } from "../../lib/api";
 import "./css/Quotes.css";
 
 const CustomerQuotes = () => {
@@ -17,7 +18,7 @@ useEffect(() => {
   const fetchQuotes = async () => {
     try {
       const response = await fetch(
-        `http://127.0.0.1:5000/api/requests/${requestId}/quotes`,
+        apiUrl(`/api/requests/${requestId}/quotes`),
         {
           headers: {
             "Content-Type": "application/json",
@@ -42,7 +43,7 @@ useEffect(() => {
   const fetchQuotes = async () => {
     try {
       const response = await fetch(
-        `http://127.0.0.1:5000/api/requests/${requestId}/quotes`,
+        apiUrl(`/api/requests/${requestId}/quotes`),
         {
           headers: {
             "Content-Type": "application/json",
@@ -72,7 +73,7 @@ const handleConfirmBooking = async (quoteId) => {
   const confirmed = window.confirm("Are you sure you want to confirm this booking?");
   if (confirmed) {
     const token = localStorage.getItem("token");
-    const reponse =await fetch(`http://localhost:5000/api/quotes/${quoteId}/accept`,{
+    const reponse =await fetch(apiUrl(`/api/quotes/${quoteId}/accept`),{
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

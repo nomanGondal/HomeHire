@@ -11,7 +11,7 @@ import {
   Clock,
 } from "lucide-react";
 import "./css/CustomerProviderProfile.css";
-
+import { apiUrl } from "../../lib/api";
 const CustomerProviderProfile = () => {
   const { providerId } = useParams();
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ useEffect(() => {
 
     try {
       const response = await fetch(
-        `http://127.0.0.1:5000/api/customerhome/providerprofile/${providerId}`,
+        apiUrl(`/api/customerhome/providerprofile/${providerId}`),
         {
           headers: {
             "Content-Type": "application/json",

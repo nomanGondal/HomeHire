@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Plus, Trash2 } from "lucide-react";
 import "./ProviderSetPage.css";
-
+import { apiUrl } from "../../lib/api";
 const TOTAL_STEPS = 4;
 
 const emptyService = () => ({
@@ -23,7 +23,7 @@ const ProviderProfileSetup = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:5000/api/categories/", {
+        const response = await fetch(apiUrl("/api/categories/"), {
           method: "GET",
         });
         const data = await response.json();
@@ -149,7 +149,7 @@ const ProviderProfileSetup = () => {
       // Services array must be sent as a JSON string inside FormData
       payload.append("services", JSON.stringify(services));
 
-      const response = await fetch("http://127.0.0.1:5000/api/provider/profile", {
+      const response = await fetch(apiUrl("/api/provider/profile"), {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,

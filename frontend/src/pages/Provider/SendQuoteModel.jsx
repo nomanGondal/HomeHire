@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./css/SendQuoteModel.css"; // ya jahan aapki CSS files hain
-
+import { apiUrl } from "../../lib/api";
 const SendQuoteModal = ({ serviceRequestId, onClose, onSuccess }) => {
   const [formData, setFormData] = useState({
     price: "",
@@ -28,7 +28,7 @@ const SendQuoteModal = ({ serviceRequestId, onClose, onSuccess }) => {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await fetch("http://127.0.0.1:5000/api/quotes/", {
+      const response = await fetch(apiUrl("/api/quotes/"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

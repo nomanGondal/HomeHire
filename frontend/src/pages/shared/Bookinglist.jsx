@@ -4,7 +4,7 @@ import { Calendar, MapPin, Wallet, Phone, User } from "lucide-react";
 import BookingDetailsModal from "./BookingDetailedModel";
 import { connectSocket } from "../../socketio/socketio";
 import "./Bookinglist.css";
-
+import { apiUrl } from "../../lib/api";
 const statusConfig = {
     confirmed: { label: "Confirmed", className: "confirmed" },
     "in-progress": { label: "In Progress", className: "in-progress" },
@@ -23,7 +23,7 @@ const Bookingslist = ({ viewerRole, limit, compact = false }) => {
             const token = localStorage.getItem("token");
             
             try {
-                const response = await fetch("http://127.0.0.1:5000/api/bookings/my", {
+                const response = await fetch(apiUrl("/api/bookings/my"), {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -64,7 +64,7 @@ const Bookingslist = ({ viewerRole, limit, compact = false }) => {
         
         try {
             const response = await fetch(
-                `http://127.0.0.1:5000/api/bookings/${bookingId}/status`,
+                apiUrl(`/api/bookings/${bookingId}/status`),
                 {
                     method: "PUT",
                     headers: {

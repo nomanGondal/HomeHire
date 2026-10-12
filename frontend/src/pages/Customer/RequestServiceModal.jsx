@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./css/Openrequest.css"
+import { apiUrl } from "../../lib/api";
 const RequestServiceModal = ({ provider, preSelectedCategory, onClose, onSuccess }) => {
     const [formData, setFormData] = useState({
         category:preSelectedCategory?._id || "",
@@ -52,7 +53,7 @@ const RequestServiceModal = ({ provider, preSelectedCategory, onClose, onSuccess
                 payload.append("photos", formData.photo);
             }
 
-            const response = await fetch("http://127.0.0.1:5000/api/requests/openarequest", {
+            const response = await fetch(apiUrl("/api/requests/openarequest"), {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${token}`,

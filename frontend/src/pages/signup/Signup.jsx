@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import "./Signup.css";
-
+import { apiUrl } from "../../lib/api";
 const Signup = () => {
   const [formData, setFormData] = useState({
     fullName: "",
@@ -63,7 +63,7 @@ const Signup = () => {
   setErrors({});
 
   try {
-    const response = await fetch("http://127.0.0.1:5000/api/auth/send-otp", {
+    const response = await fetch(apiUrl("/api/auth/send-otp"), {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

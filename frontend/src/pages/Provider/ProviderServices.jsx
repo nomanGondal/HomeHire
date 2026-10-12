@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Plus, Pencil, Trash2, X, Check } from "lucide-react";
 import "../Provider/css/ProviderServices.css";
-
+import { apiUrl } from "../../lib/api";
 const emptyDraft = () => ({
   category: "",
   description: "",
@@ -27,7 +27,7 @@ const ProviderServices = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:5000/api/provider/profile/me", {
+        const response = await fetch(apiUrl("/api/provider/profile/me"), {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -46,7 +46,7 @@ const ProviderServices = () => {
 
     const fetchCategories = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:5000/api/categories/", {
+        const response = await fetch(apiUrl("/api/categories/"), {
           method: "GET",
         });
         const data = await response.json();
@@ -78,7 +78,7 @@ const ProviderServices = () => {
     setError("");
 
     try {
-      const response = await fetch("http://127.0.0.1:5000/api/provider/profile/me", {
+      const response = await fetch(apiUrl("/api/provider/profile/me"), {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
