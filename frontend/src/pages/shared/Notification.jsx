@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Bell, CheckCircle, XCircle, Clock } from "lucide-react";
 import { connectSocket } from "../../socketio/socketio";
 import "./Notification.css";
-
+import { apiUrl } from "../../lib/api";
 // Maps a notification "type" to an icon — extend this as more types are added
 const typeIcons = {
   job_completion_request: CheckCircle,
@@ -32,7 +32,7 @@ const Notification = () => {
       const token = localStorage.getItem("token");
 
       try {
-        const response = await fetch("http://127.0.0.1:5000/api/notifications/my", {
+        const response = await fetch(apiUrl("/api/notifications/my"), {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -101,7 +101,7 @@ const Notification = () => {
 
     try {
       const response = await fetch(
-        `http://127.0.0.1:5000/api/notifications/${notificationId}/respond`,
+        apiUrl(`/api/notifications/${notificationId}/respond`),
         {
           method: "PUT",
           headers: {

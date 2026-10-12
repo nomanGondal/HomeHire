@@ -1,8 +1,10 @@
 import { useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { Star, MapPin, BadgeCheck } from "lucide-react";
+import { apiUrl } from "../../lib/api";
 import "././css/FindProvider.css";
 import RequestServiceModal from "./RequestServiceModal";
+
 const CustomerFindProviders = () => {
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
@@ -16,8 +18,8 @@ const CustomerFindProviders = () => {
     setLoading(true);
     const token = localStorage.getItem("token");
     const url = categoryId
-      ? `http://localhost:5000/api/customerhome/providers?category=${categoryId}`
-      : "http://localhost:5000/api/customerhome/providers";
+      ? apiUrl(`/api/customerhome/providers?category=${categoryId}`)
+      : apiUrl("/api/customerhome/providers");
 
     try {
       const res = await fetch(url, {
@@ -42,7 +44,7 @@ const CustomerFindProviders = () => {
     const fetchCategories = async () => {
       const token = localStorage.getItem("token");
       try {
-        const res = await fetch("http://127.0.0.1:5000/api/categories/", {
+        const res = await fetch(apiUrl("/api/categories/"), {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,

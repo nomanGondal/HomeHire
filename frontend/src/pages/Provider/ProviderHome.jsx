@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Briefcase, MessageSquare, FileText, Star, MapPin, Clock } from "lucide-react";
 import "../Provider/css/ProviderHome.css";
 import SendQuoteModal from "./SendQuoteModel"
+import { apiUrl } from "../../lib/api";
 // Static placeholder data — will be replaced by real API calls later
 const STATS = [
   { label: "Active Bookings", value: 3, icon: Briefcase },
@@ -80,7 +81,7 @@ const ProviderHome = () => {
 
     try {
       const response = await fetch(
-        "http://127.0.0.1:5000/api/requests/open",
+        apiUrl("/api/requests/open"),
         {
           method: "GET",
           headers: {
@@ -104,7 +105,7 @@ const ProviderHome = () => {
 
       try {
         const response = await fetch(
-          "http://127.0.0.1:5000/api/provider/profile/me",
+          apiUrl("/api/provider/profile/me"),
           {
             method: "GET",
             headers: {

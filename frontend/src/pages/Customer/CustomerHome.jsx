@@ -14,6 +14,7 @@ import {
   Clock,
 } from "lucide-react";
 import "././css/Home.css";
+import { apiUrl } from "../../lib/api";
 import RequestServiceModal from "./RequestServiceModal";
 import BookingsList from "../shared/Bookinglist";
 import { Link } from "react-router-dom";
@@ -92,7 +93,7 @@ const CustomerHome = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await fetch("http://127.0.0.1:5000/api/categories/");
+        const res = await fetch(apiUrl("/api/categories/"));
         const data = await res.json();
         setCategories(data.categories || []);
       } catch (err) {

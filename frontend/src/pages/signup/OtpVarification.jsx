@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./Signup.css";
-
+import { apiUrl } from "../../lib/api";
 const OtpVerification = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -27,7 +27,7 @@ const OtpVerification = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("http://127.0.0.1:5000/api/auth/verify-otp", {
+      const response = await fetch(apiUrl("/api/auth/verify-otp"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ phone, code }),
