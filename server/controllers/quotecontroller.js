@@ -137,4 +137,27 @@ const acceptQuote = async (req, res) => {
   }
 };
 
-module.exports = { createQuote, getQuotesForRequest, acceptQuote };
+const getProviderQuotes = async (req, res) => {
+  try {
+    const { status } = req.query; // optional: pending | accepted | rejected | withdrawn
+
+    const filter = { provider: req.user.id };
+    if (status) {
+      filter.status = status;
+    }
+
+    const quotes = await Quote.find(filter)
+      .populate({
+        path: "serviceRequest",
+        select: "description urgency status address category preferredDateTime",
+        populate: { path: "category", select: "name slug" },
+      })
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({ count: quotes.length, quotes });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
+module.exports = { createQuote, getQuotesForRequest, acceptQuote, getProviderQuotes };
