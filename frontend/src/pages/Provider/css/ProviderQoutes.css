@@ -1,0 +1,188 @@
+/* src/pages/Provider/css/ProviderQuotes.css */
+
+.pquotes-header {
+  margin-bottom: 1.5rem;
+}
+
+.pquotes-heading {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #132A3A;
+  margin-bottom: 0.3rem;
+}
+
+.pquotes-subtext {
+  font-size: 0.9rem;
+  color: #5C6B73;
+}
+
+/* Tabs */
+.pquotes-tabs {
+  display: flex;
+  gap: 0.5rem;
+  border-bottom: 1px solid #E4E7EA;
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+}
+
+.pquotes-tab {
+  background: transparent;
+  border: none;
+  padding: 0.7rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #5C6B73;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.pquotes-tab:hover {
+  color: #2b7fff;
+}
+
+.pquotes-tab.active {
+  color: #2b7fff;
+  border-bottom-color: #2b7fff;
+}
+
+/* Empty / loading */
+.pquotes-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 3rem 1rem;
+  color: #9AA5AB;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* List */
+.pquotes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.pquote-card {
+  background-color: #ffffff;
+  border: 1px solid #E4E7EA;
+  border-radius: 10px;
+  padding: 1.1rem 1.25rem;
+}
+
+.pquote-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.pquote-category {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: #132A3A;
+}
+
+.pquote-status-badge {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.15rem 0.55rem;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.pquote-status-badge.pending {
+  color: #b7791f;
+  background-color: rgba(183, 121, 31, 0.1);
+}
+
+.pquote-status-badge.accepted {
+  color: #2f855a;
+  background-color: rgba(47, 133, 90, 0.1);
+}
+
+.pquote-status-badge.rejected {
+  color: #e53e3e;
+  background-color: rgba(229, 62, 62, 0.1);
+}
+
+.pquote-description {
+  font-size: 0.9rem;
+  color: #3D4A52;
+  line-height: 1.4;
+  margin-bottom: 0.7rem;
+}
+
+.pquote-meta {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  font-size: 0.8rem;
+  color: #5C6B73;
+  margin-bottom: 0.9rem;
+}
+
+.pquote-meta span {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+/* Provider's own offer block */
+.pquote-offer {
+  background-color: #F7F8FA;
+  border-left: 3px solid #2b7fff;
+  border-radius: 6px;
+  padding: 0.75rem 0.9rem;
+  margin-bottom: 0.7rem;
+}
+
+.pquote-offer-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.pquote-price {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: #2b7fff;
+}
+
+.pquote-duration {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+  color: #5C6B73;
+}
+
+.pquote-message {
+  font-size: 0.85rem;
+  color: #3D4A52;
+  font-style: italic;
+  margin-top: 0.5rem;
+  line-height: 1.4;
+}
+
+.pquote-sent {
+  font-size: 0.75rem;
+  color: #9AA5AB;
+}
+
+@media (max-width: 480px) {
+  .pquote-offer-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
